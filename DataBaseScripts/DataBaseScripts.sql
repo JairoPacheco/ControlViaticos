@@ -3,22 +3,22 @@
 USE ControlViaticos;
 
 CREATE TABLE Cliente(
-	codigo         VARCHAR(7)   NOT NULL, --CLI0000
-	razonSocial    VARCHAR (30) NOT NULL, -- NCQ
-	razonComercial VARCHAR (30) NOT NULL  -- NCQ SOLUTIONS
+	codigo         TCodCliente NOT NULL, -- CLI0000
+	razonSocial    VARCHAR(30) NOT NULL, -- NCQ
+	razonComercial VARCHAR(30) NOT NULL  -- NCQ SOLUTIONS
 );
 ALTER TABLE Cliente ADD CONSTRAINT PK_Cliente PRIMARY KEY (codigo)
 
 CREATE TABLE Sucursal(
 	id            INT IDENTITY(1,1) NOT NULL, 
 	sucursal      VARCHAR(20)       NOT NULL, 
-	codigoCliente VARCHAR(7)
+	codigoCliente TCodCliente       NOT NULL
 ); 
 ALTER TABLE Sucursal ADD CONSTRAINT PK_Sucursal PRIMARY KEY (id);
 ALTER TABLE Sucursal ADD CONSTRAINT FK_Sucursal_Cliente FOREIGN KEY (codigoCliente) REFERENCES Cliente(codigo);
 
 CREATE TABLE TipoLabor(
-	codigo      INT IDENTITY(1,1) NOT NULL, --001
+	codigo      INT IDENTITY(1,1) NOT NULL, -- 001
 	descripcion VARCHAR(100)      NOT NULL  -- Labores administrativas
 );
 ALTER TABLE TipoLabor ADD CONSTRAINT PK_TipoLabor PRIMARY KEY (codigo);
@@ -32,19 +32,19 @@ ALTER TABLE Labor ADD CONSTRAINT PK_Labor PRIMARY KEY (codigo);
 ALTER TABLE Labor ADD CONSTRAINT FK_Labor_TipoLabor FOREIGN KEY (codigoTipoLabor) REFERENCES TipoLabor(codigo);
 
 CREATE TABLE Motivo(
-	descripcion VARCHAR (100)     NOT NULL, 
+	descripcion VARCHAR(100)      NOT NULL, 
 	tipoEvento  INT IDENTITY(1,1) NOT NULL
 );
 ALTER TABLE Motivo ADD CONSTRAINT PK_Motivo PRIMARY KEY (tipoEvento);
 
 CREATE TABLE TipoSoporte(
 	codigo INT IDENTITY(1,1)  NOT NULL, 
-	descripción VARCHAR (100) NOT NULL
+	descripción VARCHAR(100)  NOT NULL
 );
 ALTER TABLE TipoSoporte ADD CONSTRAINT PK_TipoSoporte PRIMARY KEY (codigo);
 
 CREATE TABLE CentroCosto(
-	codigo      VARCHAR(8)         NOT NULL, -- 01-01-01
+	codigo      TCodCentro         NOT NULL, -- 01-01-01
 	id          INT IDENTITY (1,1) NOT NULL, 
 	descripcion VARCHAR(100)       NOT NULL);
 ALTER TABLE CentroCosto ADD CONSTRAINT PK_CentroCosto PRIMARY KEY (id);
@@ -79,7 +79,7 @@ ALTER TABLE TipoViatico ADD CONSTRAINT PK_TipoViatico PRIMARY KEY (codigo);
 CREATE TABLE Vehiculo(
 	id          INT IDENTITY(1,1) NOT NULL, 
 	descripcion VARCHAR(100)      NOT NULL, 
-	montoKm     INT               NOT NULL
+	montoKm     TMonto            NOT NULL
 );
 ALTER TABLE Vehiculo ADD CONSTRAINT PK_Vehiculo PRIMARY KEY (id);
 
@@ -97,17 +97,17 @@ CREATE TABLE Recurso(
 ALTER TABLE Recurso ADD CONSTRAINT PK_Recurso PRIMARY KEY (id);
 
 CREATE TABLE Viatico(
-	id                INT          NOT NULL, 
-	fecha             DATETIME     NOT NULL,
-	factura           INT          NOT NULL,
-	monto             FLOAT        NOT NULL, 
-	numPagos          INT          NOT NULL, 
-	notas             VARCHAR(100) NOT NULL,
-	boleta            INT          NOT NULL, 
-	codigoTipoViatico INT, --FK
-	idProveedor       INT          NOT NULL, --FK
-	idResponsable     INT          NOT NULL, --FK
-	IDEvento          INT          NOT NULL  --FK
+	id                INT IDENTITY(1,1) NOT NULL, 
+	fecha             TFecha            NOT NULL,
+	factura           VARCHAR(50)       NOT NULL,
+	monto             TMonto            NOT NULL, 
+	numPagos          INT               NOT NULL, 
+	notas             VARCHAR(100)      NOT NULL,
+	boleta            TBoleta           NOT NULL, --CA-9034
+	codigoTipoViatico INT               NOT NULL, --FK
+	idProveedor       INT               NOT NULL, --FK
+	idResponsable     INT               NOT NULL, --FK
+	idEvento          INT               NOT NULL  --FK
 );
 ALTER TABLE Viatico ADD CONSTRAINT PK_Viatico PRIMARY KEY (id);
 ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_TipoViatico FOREIGN KEY (codigoTipoViatico) REFERENCES TipoViatico(codigo);
@@ -123,9 +123,9 @@ ALTER TABLE Gasolina ADD CONSTRAINT PK_Gasolina PRIMARY KEY (idViatico);
 ALTER TABLE Gasolina ADD CONSTRAINT FK_Gasolina_Viatico FOREIGN KEY (idVehiculo) REFERENCES Vehiculo(id);
 
 CREATE TABLE Kilometraje(
-	idViatico  INT   NOT NULL,
-	montoKm    FLOAT NOT NULL,
-	idVehiculo INT   NOT NULL
+	idViatico    INT         NOT NULL,
+	kmRecorridos TKilometros NOT NULL,
+	idVehiculo   INT         NOT NULL
 );
 ALTER TABLE Kilometraje ADD CONSTRAINT PK_Kilometraje PRIMARY KEY (idViatico);
 ALTER TABLE Kilometraje ADD CONSTRAINT FK_Kilometraje_Viatico FOREIGN KEY (idVehiculo) REFERENCES Vehiculo(id);

@@ -18,13 +18,13 @@ ALTER TABLE Sucursal ADD CONSTRAINT PK_Sucursal PRIMARY KEY (id);
 ALTER TABLE Sucursal ADD CONSTRAINT FK_Sucursal_Cliente FOREIGN KEY (codigoCliente) REFERENCES Cliente(codigo);
 
 CREATE TABLE TipoLabor(
-	codigo      INT IDENTITY(1,1) NOT NULL, -- 001
+	id          INT IDENTITY(1,1) NOT NULL, -- 001
 	descripcion VARCHAR(100)      NOT NULL  -- Labores administrativas
 );
 ALTER TABLE TipoLabor ADD CONSTRAINT PK_TipoLabor PRIMARY KEY (codigo);
 
 CREATE TABLE Labor(
-	codigo          INT IDENTITY(1,1) NOT NULL, -- 001
+	id              INT IDENTITY(1,1) NOT NULL, -- 001
 	descripción     VARCHAR(100)      NOT NULL, -- LABOR SIN PROYECTO
 	codigoTipoLabor INT               NOT NULL  --FK
 );
@@ -33,12 +33,12 @@ ALTER TABLE Labor ADD CONSTRAINT FK_Labor_TipoLabor FOREIGN KEY (codigoTipoLabor
 
 CREATE TABLE Motivo(
 	descripcion VARCHAR(100)      NOT NULL, 
-	tipoEvento  INT IDENTITY(1,1) NOT NULL
+	id          INT IDENTITY(1,1) NOT NULL
 );
 ALTER TABLE Motivo ADD CONSTRAINT PK_Motivo PRIMARY KEY (tipoEvento);
 
 CREATE TABLE TipoSoporte(
-	codigo INT IDENTITY(1,1)  NOT NULL, 
+	id          INT IDENTITY(1,1)  NOT NULL, 
 	descripción VARCHAR(100)  NOT NULL
 );
 ALTER TABLE TipoSoporte ADD CONSTRAINT PK_TipoSoporte PRIMARY KEY (codigo);
@@ -71,7 +71,7 @@ ALTER TABLE Evento ADD CONSTRAINT FK_Evento_TipoSoporte FOREIGN KEY (codigoTipoS
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Motivo FOREIGN KEY (codigoMotivo) REFERENCES Motivo(tipoEvento);
 
 CREATE TABLE TipoViatico(
-	codigo      INT IDENTITY(1,1) NOT NULL, 
+	id          INT IDENTITY(1,1) NOT NULL, 
 	descripcion VARCHAR(100)      NOT NULL
 );
 ALTER TABLE TipoViatico ADD CONSTRAINT PK_TipoViatico PRIMARY KEY (codigo);

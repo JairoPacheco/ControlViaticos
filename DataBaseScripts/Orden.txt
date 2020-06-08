@@ -1,0 +1,5 @@
+Orden para ejecutar los scripts:
+1. Crear la base de datos
+2. TypesRules
+3. DataBaseScripts
+4. Inserts

@@ -55,7 +55,7 @@ VALUES ('Administracion', '01-01-01'),
        ('Clientes', '01-03-01');
 GO
 
-INSERT Evento (fecha, trabajo, tieneContrato, duración, problemaReportado, problemaResuelto, idSucursal, 
+INSERT Evento (fecha, trabajo, tieneContrato, duracion, problemaReportado, problemaResuelto, idSucursal, 
                 codigoCentroCosto, idLabor, idTipoSoporte, idMotivo)
 VALUES ('2020-06-20', 'Visita a oficinas de NCQ', 0, '2:00:00', 'Visita a oficinas de NCQ', 1, 1, '01-01-01', 1, 1, 1),
        ('2020-07-10', 'Visita al TEC', 0, '3:20:00', 'Visita al TEC', 1, 1, '01-01-01', 1, 1, 1),

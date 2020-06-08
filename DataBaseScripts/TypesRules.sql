@@ -1,3 +1,6 @@
+CREATE DATABASE ControlViaticos;
+GO
+
 USE ControlViaticos;
 GO
 

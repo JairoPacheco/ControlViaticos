@@ -53,7 +53,7 @@ CREATE TABLE Evento(
 	fecha             DATETIME          NOT NULL, 
 	trabajo           VARCHAR(100)      NOT NULL, -- TRABAJO REALIZADO
 	tieneContrato     BIT               NOT NULL, 
-	duración          TIME              NOT NULL, 
+	duracion          TIME              NOT NULL, 
 	problemaReportado VARCHAR(100)      NOT NULL, 
 	problemaResuelto  BIT               NOT NULL, 
 	idSucursal        INT               NOT NULL, --FK

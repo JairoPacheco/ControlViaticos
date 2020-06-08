@@ -57,14 +57,14 @@ CREATE TABLE Evento(
 	problemaReportado VARCHAR(100)      NOT NULL, 
 	problemaResuelto  BIT               NOT NULL, 
 	idSucursal        INT               NOT NULL, --FK
-	idCentroCosto     TCodCentro        NOT NULL, --FK
+	codigoCentroCosto TCodCentro        NOT NULL, --FK
 	idLabor           INT               NOT NULL, --FK
 	idTipoSoporte     INT               NOT NULL, --FK
 	idMotivo          INT               NOT NULL  --FK
 );
 ALTER TABLE Evento ADD CONSTRAINT PK_Evento PRIMARY KEY (id);
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Sucursal FOREIGN KEY (idSucursal) REFERENCES Sucursal(id);
-ALTER TABLE Evento ADD CONSTRAINT FK_Evento_centroCosto FOREIGN KEY (idCentroCosto) REFERENCES CentroCosto(codigo);
+ALTER TABLE Evento ADD CONSTRAINT FK_Evento_centroCosto FOREIGN KEY (codigoCentroCosto) REFERENCES CentroCosto(codigo);
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Labor FOREIGN KEY (idLabor) REFERENCES Labor(id);
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_TipoSoporte FOREIGN KEY (idTipoSoporte) REFERENCES TipoSoporte(id);
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Motivo FOREIGN KEY (idMotivo) REFERENCES Motivo(id);
@@ -95,7 +95,6 @@ CREATE TABLE Vehiculo(
 	idResponsable INT             NOT NULL
 );
 ALTER TABLE Vehiculo ADD CONSTRAINT PK_Vehiculo PRIMARY KEY (id);
-ALTER TABLE Viatico ADD CONSTRAINT FK_Vehiculo_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id);
 
 CREATE TABLE Viatico(
 	id                INT IDENTITY(1,1) NOT NULL, 
@@ -115,6 +114,7 @@ ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_TipoViatico FOREIGN KEY (idTipoVia
 ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_Proveedor FOREIGN KEY (idProveedor) REFERENCES Proveedor(id);
 ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id);
 ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_Evento FOREIGN KEY (idEvento) REFERENCES Evento(id);
+ALTER TABLE Viatico ADD CONSTRAINT FK_Vehiculo_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id);
 
 CREATE TABLE Gasolina(
 	idViatico  INT NOT NULL,

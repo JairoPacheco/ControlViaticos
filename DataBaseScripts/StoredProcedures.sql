@@ -121,3 +121,42 @@ BEGIN
     RETURN;
 
 END
+GO
+
+CREATE OR ALTER PROC removeEvento
+	@id		int,
+	@status TINYINT OUTPUT
+AS
+BEGIN
+	-- si se eliminó correctamente (codigo 0)
+	IF EXISTS (SELECT id FROM Evento WHERE id=@id)
+	BEGIN
+		DELETE FROM Evento WHERE id=@id;
+		SET @status = 0;
+        SELECT @status AS statusCode;
+        RETURN;
+	END
+	-- si no existe (codigo 1)
+	SET @status = 1;
+    SELECT @status AS statusCode;
+END
+GO
+
+CREATE OR ALTER PROC removeViatico
+	@id		int,
+	@status TINYINT OUTPUT
+AS
+BEGIN
+	-- si se eliminó correctamente (codigo 0)
+	IF EXISTS (SELECT id FROM Viatico WHERE id=@id)
+	BEGIN
+		DELETE FROM Viatico WHERE id=@id;
+		SET @status = 0;
+        SELECT @status AS statusCode;
+        RETURN;
+	END
+	-- si no existe (codigo 1)
+	SET @status = 1;
+    SELECT @status AS statusCode;
+END
+GO 

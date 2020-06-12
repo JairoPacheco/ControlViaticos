@@ -11,4 +11,4 @@ Acerca de: Sistema de control de viaticos para empresas
 
 Curso: Bases de Datos 1. 
 I Semestre 2020. 
-Profesora: Marlen Triveño.
+Profesora: Marlen Treviño.

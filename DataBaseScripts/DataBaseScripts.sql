@@ -48,6 +48,13 @@ CREATE TABLE CentroCosto(
 	descripcion VARCHAR(100)       NOT NULL);
 ALTER TABLE CentroCosto ADD CONSTRAINT PK_CentroCosto PRIMARY KEY (codigo);
 
+CREATE TABLE Recurso(
+	id          INT IDENTITY(1,1) NOT NULL, 
+	responsable VARCHAR(20)       NOT NULL, --USERNAME
+	descripción VARCHAR(100)      NOT NULL  --NOMBRE
+);
+ALTER TABLE Recurso ADD CONSTRAINT PK_Recurso PRIMARY KEY (id);
+
 CREATE TABLE Evento(
 	id                INT IDENTITY(1,1) NOT NULL, 
 	fecha             DATETIME          NOT NULL, 
@@ -60,7 +67,8 @@ CREATE TABLE Evento(
 	codigoCentroCosto TCodCentro        NOT NULL, --FK
 	idLabor           INT               NOT NULL, --FK
 	idTipoSoporte     INT               NOT NULL, --FK
-	idMotivo          INT               NOT NULL  --FK
+	idMotivo          INT               NOT NULL, --FK
+	idResponsable	  INT				NOT NULL  --FK
 );
 ALTER TABLE Evento ADD CONSTRAINT PK_Evento PRIMARY KEY (id);
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Sucursal FOREIGN KEY (idSucursal) REFERENCES Sucursal(id);
@@ -68,6 +76,7 @@ ALTER TABLE Evento ADD CONSTRAINT FK_Evento_centroCosto FOREIGN KEY (codigoCentr
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Labor FOREIGN KEY (idLabor) REFERENCES Labor(id);
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_TipoSoporte FOREIGN KEY (idTipoSoporte) REFERENCES TipoSoporte(id);
 ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Motivo FOREIGN KEY (idMotivo) REFERENCES Motivo(id);
+ALTER TABLE Evento ADD CONSTRAINT FK_Evento_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id);
 
 CREATE TABLE TipoViatico(
 	id          INT IDENTITY(1,1) NOT NULL, 
@@ -81,20 +90,14 @@ CREATE TABLE Proveedor(
 );
 ALTER TABLE Proveedor ADD CONSTRAINT PK_Proveedor PRIMARY KEY (id);
 
-CREATE TABLE Recurso(
-	id          INT IDENTITY(1,1) NOT NULL, 
-	responsable VARCHAR(20)       NOT NULL, --USERNAME
-	descripción VARCHAR(100)      NOT NULL  --NOMBRE
-);
-ALTER TABLE Recurso ADD CONSTRAINT PK_Recurso PRIMARY KEY (id);
-
 CREATE TABLE Vehiculo(
-	id          INT IDENTITY(1,1) NOT NULL, 
-	descripcion VARCHAR(100)      NOT NULL, 
-	montoKm     TMonto            NOT NULL,
-	idResponsable INT             NOT NULL
+	id				INT IDENTITY(1,1) NOT NULL, 
+	descripcion		VARCHAR(100)      NOT NULL, 
+	montoKm			TMonto            NOT NULL,
+	idResponsable	INT				  NOT NULL
 );
 ALTER TABLE Vehiculo ADD CONSTRAINT PK_Vehiculo PRIMARY KEY (id);
+ALTER TABLE Vehiculo ADD CONSTRAINT FK_Vehiculo_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id);
 
 CREATE TABLE Viatico(
 	id                INT IDENTITY(1,1) NOT NULL, 
@@ -114,7 +117,6 @@ ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_TipoViatico FOREIGN KEY (idTipoVia
 ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_Proveedor FOREIGN KEY (idProveedor) REFERENCES Proveedor(id);
 ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id);
 ALTER TABLE Viatico ADD CONSTRAINT FK_Viatico_Evento FOREIGN KEY (idEvento) REFERENCES Evento(id);
-ALTER TABLE Viatico ADD CONSTRAINT FK_Vehiculo_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id);
 
 CREATE TABLE Gasolina(
 	idViatico  INT NOT NULL,

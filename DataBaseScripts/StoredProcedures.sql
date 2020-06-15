@@ -13,6 +13,7 @@ CREATE OR ALTER PROC addEvent
 	@idLabor           INT,
 	@idTipoSoporte     INT,
 	@idMotivo          INT,
+	@idResponsable	   INT,
 	@status            TINYINT OUTPUT
 AS
 BEGIN
@@ -56,10 +57,18 @@ BEGIN
 		RETURN;
 	END
 
+	-- Si no existe el responsable (código 6)
+	IF NOT EXISTS(SELECT id FROM Motivo WHERE id = @idMotivo)
+	BEGIN
+		SET @status = 5;
+		SELECT @status AS statusCode;
+		RETURN;
+	END
+
 	INSERT INTO Evento(fecha, trabajo, tieneContrato, duracion, problemaReportado, problemaResuelto,
-						idSucursal, codigoCentroCosto, idLabor, idTipoSoporte, idMotivo)
+						idSucursal, codigoCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
 	VALUES (@fecha, @trabajo, @tieneContrato, @duracion, @problemaReportado, @problemaResuelto,
-			@idSucursal, @codigoCentroCosto, @idLabor, @idTipoSoporte, @idMotivo);
+			@idSucursal, @codigoCentroCosto, @idLabor, @idTipoSoporte, @idMotivo, @idResponsable);
 
 	-- Operación realizada exitosamente
 	SET @status = 0;

@@ -13,7 +13,7 @@ GO
  *	@problemaReportado	- el problema que se reportó en el evento
  *	@problemaResuelto	- indica si la visita resolvió el problema,
  *	@idSucursal			- el id de la sucursal que se visitó
- *	@codigoCentroCosto	- el código del centro de costo
+ *	@idCentroCosto		- id del centro de costo
  *	@idLabor			- id de la labor realizada,
  *	@idTipoSoporte		- id del tipo de soporte brindado,
  *	@idMotivo			- id del motivo de la visita,
@@ -21,19 +21,19 @@ GO
  *	@status				- parametro de salida que indica si la operación fue exitosa o devuelve un código de error
  */
 CREATE OR ALTER PROC addEvent
-	@fecha             DATETIME,
-	@trabajo           VARCHAR(100),
-	@tieneContrato     BIT,
-	@duracion          TIME,
-	@problemaReportado VARCHAR(100),
-	@problemaResuelto  BIT,
-	@idSucursal        INT,
-	@codigoCentroCosto TCodCentro,
-	@idLabor           INT,
-	@idTipoSoporte     INT,
-	@idMotivo          INT,
-	@idResponsable	   INT,
-	@status            TINYINT = 0 OUTPUT
+	@fecha				TFecha,
+	@trabajo			VARCHAR(100),
+	@tieneContrato		BIT,
+	@duracion			TIME,
+	@problemaReportado	VARCHAR(100),
+	@problemaResuelto	BIT,
+	@idSucursal			INT,
+	@idCentroCosto		INT,
+	@idLabor			INT,
+	@idTipoSoporte		INT,
+	@idMotivo			INT,
+	@idResponsable		INT,
+	@status				TINYINT = 0 OUTPUT
 AS
 BEGIN
 	-- Si no existe la sucursal (código 1)
@@ -45,7 +45,7 @@ BEGIN
 	END
 
 	-- Si no existe la centro de costo (código 2)
-	IF NOT EXISTS(SELECT codigo FROM CentroCosto WHERE codigo = @codigoCentroCosto)
+	IF NOT EXISTS(SELECT id FROM CentroCosto WHERE id = @idCentroCosto)
 	BEGIN
 		SET @status = 2;
 		SELECT @status AS statusCode;
@@ -85,9 +85,9 @@ BEGIN
 	END
 
 	INSERT INTO Evento(fecha, trabajo, tieneContrato, duracion, problemaReportado, problemaResuelto,
-						idSucursal, codigoCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
+						idSucursal, idCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
 	VALUES (@fecha, @trabajo, @tieneContrato, @duracion, @problemaReportado, @problemaResuelto,
-			@idSucursal, @codigoCentroCosto, @idLabor, @idTipoSoporte, @idMotivo, @idResponsable);
+			@idSucursal, @idCentroCosto, @idLabor, @idTipoSoporte, @idMotivo, @idResponsable);
 
 	-- Operación realizada exitosamente
 	SET @status = 0;

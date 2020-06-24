@@ -32,24 +32,48 @@ SELECT * FROM Vehiculo;
 GO*/
 
 /**
- * Trigger que valida que no se repita la boleta de un viático
+ * Trigger que valida que la fecha que se inserta no sea mayor a la fecha actual
  * Descripción:
- *	Cada vez que se ingresa o actualiza un viatico verifica que la boleta de ese viatico no se encuentre
- *	repetida, en caso de estar repetida rechaza los datos y hace un rollback.
+ *    Cada vez que se ingresa o actualiza un viatico verifica que la fecha sea mayor a la 
+ *    fecha actual, en caso de que la fecha sea mayor a la fecha actual rechaza los datos y hace un rollback.
  */
-CREATE TRIGGER triggerBoleta ON Viatico
-AFTER INSERT, UPDATE
+CREATE TRIGGER triggerFechaViatico ON Viatico
+AFTER INSERT , UPDATE
 AS
-	DECLARE @boleta TBoleta
-	SELECT @boleta = boleta FROM inserted
-	IF EXISTS(SELECT id FROM Viatico WHERE boleta=@boleta)
-	BEGIN
-		PRINT 'Ya existe un viático con esta boleta'
+    DECLARE @fecha TFecha
+    SELECT @fecha = fecha FROM inserted
+
+    IF(@fecha > GETDATE())
+    BEGIN
+		PRINT 'No se puede insertar una fecha superior a la actual'
 		ROLLBACK TRANSACTION
-	END
+    END
 GO
 
 -- Datos para probar
 /*INSERT INTO Viatico(fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, idProveedor, idResponsable, idEvento)
-VALUES ('2020-06-26', '4532134792', 5000, 1, 'Comida', 'CO-5341', 1, 1, 3, 3)*/
+VALUES ('2020-06-24', '4532134792', 5000, 1, 'Comida', 'CO-5341', 1, 1, 3, 3)*/
 
+/**
+ * Trigger que valida que la fecha que se inserta no sea mayor a la fecha actual
+ * Descripción:
+ *    Cada vez que se ingresa o actualiza un Evento verifica que la fecha sea mayor a la 
+ *    fecha actual, en caso de que la fecha sea mayor a la fecha actual rechaza los datos y hace un rollback.
+ */
+CREATE TRIGGER triggerFechaEvento ON Evento
+AFTER INSERT , UPDATE
+AS
+    DECLARE @fecha TFecha
+    SELECT @fecha = fecha FROM inserted
+
+    IF(@fecha > GETDATE())
+    BEGIN
+		PRINT 'No se puede insertar una fecha superior a la actual'
+		ROLLBACK TRANSACTION
+    END
+GO
+
+---- Datos para probar
+/*INSERT Evento (fecha, trabajo, tieneContrato, duracion, problemaReportado, problemaResuelto, idSucursal, 
+                idCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
+VALUES ('2005-06-20', 'Visita a oficinas de NCQ', 0, '2:00:00', 'Visita a oficinas de NCQ', 1, 1, 1, 1, 1, 1, 1)*/

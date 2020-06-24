@@ -1,28 +1,30 @@
 USE ControlViaticos
 GO
 
-INSERT Cliente(codigo,razonSocial,razonComercial) 
-VALUES ('CLI0000','NCQ','NCQ SOLUTIONS'),
-	   ('CLI0001','NCQ','NCQ SOLUTIONS'),
-	   ('CLI0002','NCQ','NCQ SOLUTIONS');
+INSERT Cliente(razonSocial, razonComercial) 
+VALUES ('NCQ', 'NCQ SOLUTIONS'),
+	   ('Avantica', 'Avantica Software Development'),
+	   ('Go-Labs', 'Go-Labs Software Development');
 GO
 
-INSERT Sucursal(sucursal,codigoCliente) 
-VALUES ('Sucursal1','CLI0000'),
-	   ('Sucursal2','CLI0001'),
-	   ('Sucursal3','CLI0002');
+INSERT Sucursal(sucursal, idCliente) 
+VALUES ('NCQ Ciudad Quesada', 1),
+	   ('NCQ San José', 1),
+	   ('Avantica Ciudad Quesada ', 2),
+	   ('Go-Labs Ciudad Quesada', 3);
 GO
 
 INSERT TipoLabor(descripcion)
 VALUES ('Labores administrativas'),
-	   ('Labores Sociales'),
-	   ('Labores administrativas2');
+	   ('Labores sociales'),
+	   ('Labores de software');
 GO
 
 INSERT Labor(descripcion,idTipoLabor) 
-VALUES ('LABOR SIN PROYECTO',1),
-	   ('LABOR SIN PROYECTO',2),
-	   ('LABOR SIN PROYECTO',3);
+VALUES ('Administración de la empresa', 1),
+	   ('Contratación de empleados', 2),
+	   ('Quality Assurance', 3),
+	   ('Gestión de requerimientos', 3);
 GO
 
 INSERT Motivo(descripcion) 
@@ -55,18 +57,17 @@ VALUES ('Sin contrato'),
        ('Contrato de soporte');
 GO
 
-INSERT CentroCosto (descripcion, codigo)
-VALUES ('Administracion', '01-01-01'),
-       ('Call Center', '01-02-01'),
-       ('Clientes', '01-03-01');
+INSERT CentroCosto (descripcion)
+VALUES ('Administracion'),
+       ('Call Center'),
+       ('Clientes');
 GO
 
 INSERT Evento (fecha, trabajo, tieneContrato, duracion, problemaReportado, problemaResuelto, idSucursal, 
-                codigoCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
-VALUES ('2020-06-20', 'Visita a oficinas de NCQ', 0, '2:00:00', 'Visita a oficinas de NCQ', 1, 1, '01-01-01', 1, 1, 1, 1),
-       ('2020-07-10', 'Visita al TEC', 0, '3:20:00', 'Visita al TEC', 1, 1, '01-01-01', 1, 1, 1, 2),
-       ('2020-06-25', 'Entrega proyecto bases de datos 1', 0, '1:00:00', 'Entrega proyecto bases de datos 1', 1, 1, '01-01-01', 1, 1, 1, 3)
-    --('', '', 0, '', '', , 1, 1, 1, 1, 1, 1)
+                idCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
+VALUES ('2020-06-20', 'Visita a oficinas de NCQ', 0, '2:00:00', 'Visita a oficinas de NCQ', 1, 1, 1, 1, 1, 1, 1),
+       ('2020-07-10', 'Visita al TEC', 0, '3:20:00', 'Visita al TEC', 1, 1, 2, 1, 1, 1, 2),
+       ('2020-06-25', 'Entrega proyecto bases de datos 1', 0, '1:00:00', 'Entrega proyecto bases de datos 1', 1, 1, 3, 1, 1, 1, 3);
 GO
 
 INSERT INTO Proveedor(descripcion)

@@ -8,10 +8,10 @@ GO
  */
 CREATE VIEW ClienteSucursal
 AS
-	SELECT codigo, razonSocial, razonComercial, id, sucursal 
+	SELECT id, razonSocial, razonComercial, id, sucursal 
 	FROM Cliente C 
 	INNER JOIN Sucursal S 
-		ON C.codigo = S.codigoCliente;
+		ON C.id = S.idCliente;
 GO
 
 SELECT * FROM ClienteSucursal;

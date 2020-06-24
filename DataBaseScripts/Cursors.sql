@@ -7,16 +7,16 @@ GO
  */
 PRINT 'Cursor 1'
 DECLARE cursor_cliente CURSOR FOR 
-SELECT codigo, razonComercial FROM Cliente
-DECLARE @codigo TCodCliente
+SELECT id, razonComercial FROM Cliente
+DECLARE @idCliente INT
 DECLARE @razonC VARCHAR(30)
 OPEN cursor_cliente --Abrimos el cursor para iniciar el recorrido del mismo
-FETCH NEXT FROM cursor_cliente INTO @codigo, @razonC
+FETCH NEXT FROM cursor_cliente INTO @idCliente, @razonC
 WHILE @@fetch_status = 0
 BEGIN
 	PRINT 'La razón comercial es ' + @razonC
     DECLARE cursor_sucursal CURSOR FOR
-    SELECT sucursal FROM Sucursal WHERE codigoCliente = @codigo
+    SELECT sucursal FROM Sucursal WHERE idCliente = @idCliente
     DECLARE @sucursal VARCHAR(20)
     OPEN cursor_sucursal
     FETCH NEXT FROM cursor_sucursal INTO @sucursal
@@ -28,7 +28,7 @@ BEGIN
 	PRINT'---------------------------------------------'
     CLOSE cursor_sucursal --Cierra el cursor.
     DEALLOCATE cursor_sucursal
-	FETCH NEXT FROM cursor_cliente into @codigo, @razonC
+	FETCH NEXT FROM cursor_cliente into @idCliente, @razonC
 END
 CLOSE cursor_cliente --Cierra el cursor.
 DEALLOCATE cursor_cliente --Lo libera de la memoria y lo destruye.

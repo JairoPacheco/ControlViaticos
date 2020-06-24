@@ -2,6 +2,7 @@ Orden para ejecutar los scripts:
 1. TypesRules
 2. DataBaseScripts
 3. Inserts
-4. StoredProcedures
-5. Cursors
-6. Triggers
+4. Queries
+5. StoredProcedures
+6. Cursors
+7. Triggers

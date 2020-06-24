@@ -37,7 +37,7 @@ VALUES ('Desayuno'),
 	   ('Kilometraje');
 GO
 
-INSERT INTO Recurso(responsable, descripción)
+INSERT INTO Recurso(responsable, descripcion)
 VALUES ('frsoto', 'FRANCISCO SOTO QUESADA'),
        ('jairopc', 'JAIRO PACHECO CAMPOS'),
        ('sebasrv', 'SEBASTIÁN ROJAS VARGAS');
@@ -49,7 +49,7 @@ VALUES ('Toyota', 5, 1),
 	   ('Tesla', 10, 3);
 GO
 
-INSERT TipoSoporte(descripción)
+INSERT TipoSoporte(descripcion)
 VALUES ('Sin contrato'),
        ('Feriado'),
        ('Contrato de soporte');

@@ -1,7 +1,10 @@
 USE ControlViaticos;
 GO
 
--- 1. cursor que imprime el cliente y sus sucursales
+/**
+ * Este cursor imprime el nombre del cliente y debajo de usando otro subcursor
+ * imprime todas las sucursales del cliente.
+ */
 PRINT 'Cursor 1'
 DECLARE cursor_cliente CURSOR FOR 
 SELECT codigo, razonComercial FROM Cliente
@@ -31,11 +34,15 @@ CLOSE cursor_cliente --Cierra el cursor.
 DEALLOCATE cursor_cliente --Lo libera de la memoria y lo destruye.
 GO
 
+/**
+ * Este cursor se utiliza para imprimir los datos de cada uno de los
+ * recursos (responsables).
+ */
 PRINT ''
 PRINT 'Cursor 2'
 -- 2. cursor que imprime el username y nombre de los recursos (responsables)
 DECLARE cursor_recurso CURSOR FOR 
-SELECT responsable, descripción FROM Recurso
+SELECT responsable, descripcion FROM Recurso
 DECLARE @responsable VARCHAR(20)
 DECLARE @descripción VARCHAR(100)
 OPEN cursor_recurso --Abrimos el cursor para iniciar el recorrido del mismo

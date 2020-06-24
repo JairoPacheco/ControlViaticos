@@ -1,6 +1,25 @@
 USE ControlViaticos;
 GO
 
+/**
+ * Añade un nuevo evento a la base de datos validando que todos los datos de este existan.
+ * En caso de que alguna validación falle retorna un código de error.
+ *
+ * Parametros:
+ *	@fecha				- la fecha en que se creó el evento
+ *  @trabajo			- el trabajo que se realizó en el evento
+ *	@tieneContrato		- indica si el cliente tiene contrato
+ *  @duracion			- el tiempo que duró el evento
+ *	@problemaReportado	- el problema que se reportó en el evento
+ *	@problemaResuelto	- indica si la visita resolvió el problema,
+ *	@idSucursal			- el id de la sucursal que se visitó
+ *	@codigoCentroCosto	- el código del centro de costo
+ *	@idLabor			- id de la labor realizada,
+ *	@idTipoSoporte		- id del tipo de soporte brindado,
+ *	@idMotivo			- id del motivo de la visita,
+ *	@idResponsable		- id del responsable del evento,
+ *	@status				- parametro de salida que indica si la operación fue exitosa o devuelve un código de error
+ */
 CREATE OR ALTER PROC addEvent
 	@fecha             DATETIME,
 	@trabajo           VARCHAR(100),
@@ -14,7 +33,7 @@ CREATE OR ALTER PROC addEvent
 	@idTipoSoporte     INT,
 	@idMotivo          INT,
 	@idResponsable	   INT,
-	@status            TINYINT OUTPUT
+	@status            TINYINT = 0 OUTPUT
 AS
 BEGIN
 	-- Si no existe la sucursal (código 1)
@@ -75,10 +94,31 @@ BEGIN
 	SELECT @status AS statusCode;
 END
 GO
+-- Ejemplo de ejecución
+/*EXEC addEvent '2020/06/21', 'prueba', 1, '5:00', 'prueba', 1, 1, '01-01-01', 1, 1, 1, 3;
+SELECT * FROM Evento;
+GO*/
 
+/**
+ * Añade un nuevo viatico a la base de datos validando que todos los datos de este existan.
+ * En caso de que alguna validación falle retorna un código de error.
+ *
+ * Parametros:
+ *	@fecha				- la fecha en que se creó el viatico
+ *	@factura			- la factura del viatico (opcional)
+ *	@monto				- el costo del viatico
+ *	@numPagos			- las veces que se paga el viatico
+ *	@notas				- apuntes sobre el viatico
+ *	@boleta				- el numero de boleta del viatico
+ *	@idTipoViatico		- id del tipo de viatico
+ *	@idProveedor		- id del proveedor del viatico
+ *	@idResponsable		- id del responsable del viatico
+ *	@idEvento			- id del evento asociado al viatico
+ *	@status				- parametro de salida que indica si la operación fue exitosa o devuelve un código de error
+ */
 CREATE OR ALTER PROC addViatico
     @fecha             TFecha,
-    @factura           VARCHAR(50),
+    @factura           VARCHAR(50) = NULL,
     @monto             TMonto,
     @numPagos          INT,
     @notas             VARCHAR(100),
@@ -87,7 +127,7 @@ CREATE OR ALTER PROC addViatico
     @idProveedor       INT,
     @idResponsable     INT,
     @idEvento          INT,
-    @status            TINYINT OUTPUT
+    @status            TINYINT = 0 OUTPUT
 AS
 BEGIN
     -- Si no existe el tipo viatico (código 1)
@@ -131,13 +171,25 @@ BEGIN
 
 END
 GO
+-- Ejemplo de ejecución
+/*EXEC addViatico '2020/06/21', '123', 300, 1, 'prueba', 'PR-5321', 1, 1, 1, 1;
+SELECT * FROM Viatico;
+GO*/
 
+/**
+ * Permite eliminar un evento de la base de datos.
+ * En caso de que el evento no exista retorna un codigo de error (1)
+ *
+ * Parametros:
+ *	@id					- el id del evento a eliminar
+ *	@status				- parametro de salida que indica si la operación fue exitosa o devuelve un código de error
+ */
 CREATE OR ALTER PROC removeEvento
 	@id		int,
-	@status TINYINT OUTPUT
+	@status TINYINT = 0 OUTPUT
 AS
 BEGIN
-	-- si se eliminó correctamente (codigo 0)
+	-- Si se eliminó correctamente (codigo 0)
 	IF EXISTS (SELECT id FROM Evento WHERE id=@id)
 	BEGIN
 		DELETE FROM Evento WHERE id=@id;
@@ -145,18 +197,30 @@ BEGIN
         SELECT @status AS statusCode;
         RETURN;
 	END
-	-- si no existe (codigo 1)
+	-- Si no existe (codigo 1)
 	SET @status = 1;
     SELECT @status AS statusCode;
 END
 GO
+-- Ejemplo de ejecución
+/*EXEC removeEvento 4;
+SELECT * FROM Evento;
+GO*/
 
+/**
+ * Permite eliminar un viatico de la base de datos.
+ * En caso de que el viatico no exista retorna un codigo de error (1)
+ *
+ * Parametros:
+ *	@id					- el id del viatico a eliminar
+ *	@status				- parametro de salida que indica si la operación fue exitosa o devuelve un código de error
+ */
 CREATE OR ALTER PROC removeViatico
 	@id		int,
-	@status TINYINT OUTPUT
+	@status TINYINT = 0 OUTPUT
 AS
 BEGIN
-	-- si se eliminó correctamente (codigo 0)
+	-- Si se eliminó correctamente (codigo 0)
 	IF EXISTS (SELECT id FROM Viatico WHERE id=@id)
 	BEGIN
 		DELETE FROM Viatico WHERE id=@id;
@@ -164,8 +228,12 @@ BEGIN
         SELECT @status AS statusCode;
         RETURN;
 	END
-	-- si no existe (codigo 1)
+	-- Si no existe (codigo 1)
 	SET @status = 1;
     SELECT @status AS statusCode;
 END
 GO 
+-- Ejemplo de ejecución
+/*EXEC removeViatico 5;
+SELECT * FROM Evento;
+GO*/

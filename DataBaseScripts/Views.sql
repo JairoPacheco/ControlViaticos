@@ -1,7 +1,11 @@
 USE ControlViaticos;
 GO
 
--- Vista de cliente con sucursal
+/** 
+ * Vista de cliente con sucursal
+ * Descripción:
+ *	Selecciona todos los clientes y todas las sucursales asociadas a cada uno de estos
+ */
 CREATE VIEW ClienteSucursal
 AS
 	SELECT codigo, razonSocial, razonComercial, id, sucursal 
@@ -13,7 +17,11 @@ GO
 SELECT * FROM ClienteSucursal;
 GO
 
--- Vista de labor con tipo de labor
+/**
+ * Vista de labor con tipo de labor
+ * Descripción:
+ *	Selecciona todas los tipos de labor y todas las labores asociadas a cada tipo
+ */
 CREATE VIEW LaborTipo
 AS
 	SELECT
@@ -29,7 +37,11 @@ GO
 SELECT * FROM LaborTipo;
 GO
 
--- Vista de costo total de cada evento
+/**
+ * Vista de costo total de cada evento
+ * Descripción:
+ *	Selecciona todos los evento y calcula el costo de cada evento de manera individual
+ */
 CREATE VIEW CostoEventos
 AS
 	SELECT

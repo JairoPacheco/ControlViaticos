@@ -10,7 +10,7 @@ AS
 BEGIN
 	--Ya existe un cliente activo con los mismos datos (codigo 1)
 	IF EXISTS(SELECT * FROM Cliente WHERE (razonSocial = @razonSocial) 
-				AND (razonComercial = razonComercial) AND (isActive = 1))
+				AND (razonComercial = @razonComercial) AND (isActive = 1))
 	BEGIN
 		--Fallo
 		RETURN 1;
@@ -18,7 +18,7 @@ BEGIN
 	--Hay un cliente inactivo con los mismos datos, se habilita
 	DECLARE @idToActivate INT;
 	SELECT @idToActivate = id FROM Cliente WHERE (razonSocial = @razonSocial) 
-				AND (razonComercial = razonComercial) AND (isActive = 0)
+				AND (razonComercial = @razonComercial) AND (isActive = 0)
 	IF @idToActivate IS NOT NULL
 	BEGIN
 		UPDATE Cliente SET isActive = 1 WHERE id = @idToActivate;

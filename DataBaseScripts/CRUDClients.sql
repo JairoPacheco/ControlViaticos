@@ -18,7 +18,7 @@ BEGIN
 	--Hay un cliente inactivo con los mismos datos, se habilita
 	DECLARE @idToActivate INT;
 	SELECT @idToActivate = id FROM Cliente WHERE (razonSocial = @razonSocial) 
-				AND (razonComercial = razonComercial) AND (isActive = 0)
+				AND (razonComercial = @razonComercial) AND (isActive = 0)
 	IF @idToActivate IS NOT NULL
 	BEGIN
 		UPDATE Cliente SET isActive = 1 WHERE id = @idToActivate;

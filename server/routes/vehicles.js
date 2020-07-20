@@ -3,14 +3,14 @@ const router = express.Router();
 const middleware = require('../middleware/middleware');
 const consts = require('../config/constants');
 const HttpStatus = require('http-status-codes');
-const clientsController = require('../controllers/vehicles');
+const vehiclesController = require('../controllers/vehicles');
 
 router.post('/AddVehicle', middleware.validateRequest([
     "descripcion",
     "montoKm",
     "idResponsable"
 ], consts.IS_BODY_REQ), function (req, res) {
-    clientsController.addVehicle(req.body)
+    vehiclesController.addVehicle(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});
@@ -24,7 +24,7 @@ router.post('/AddVehicle', middleware.validateRequest([
 });
 
 router.get('/GetVehicles', function (req, res) {
-    clientsController.getVehicles(req)
+    vehiclesController.getVehicles(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);
@@ -40,7 +40,7 @@ router.get('/GetVehicles', function (req, res) {
 router.put('/UpdateVehicle', middleware.validateRequest([
     "id"
 ], consts.IS_BODY_REQ), function (req, res) {
-    clientsController.updateVehicle(req.body)
+    vehiclesController.updateVehicle(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});

@@ -3,12 +3,12 @@ const router = express.Router();
 const middleware = require('../middleware/middleware');
 const consts = require('../config/constants');
 const HttpStatus = require('http-status-codes');
-const clientsController = require('../controllers/supportTypes');
+const supportTypesController = require('../controllers/supportTypes');
 
 router.post('/AddSupportType', middleware.validateRequest([
     "descripcion"
 ], consts.IS_BODY_REQ), function (req, res) {
-    clientsController.addSupportType(req.body)
+    supportTypesController.addSupportType(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});
@@ -22,7 +22,7 @@ router.post('/AddSupportType', middleware.validateRequest([
 });
 
 router.get('/GetSupportTypes', function (req, res) {
-    clientsController.getSupportTypes(req)
+    supportTypesController.getSupportTypes(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);
@@ -38,7 +38,7 @@ router.get('/GetSupportTypes', function (req, res) {
 router.put('/UpdateSupportType', middleware.validateRequest([
     "id"
 ], consts.IS_BODY_REQ), function (req, res) {
-    clientsController.updateSupportType(req.body)
+    supportTypesController.updateSupportType(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});

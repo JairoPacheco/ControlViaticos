@@ -3,13 +3,13 @@ const router = express.Router();
 const middleware = require('../middleware/middleware');
 const consts = require('../config/constants');
 const HttpStatus = require('http-status-codes');
-const clientsController = require('../controllers/branchOffices');
+const branchOfficesController = require('../controllers/branchOffices');
 
 router.post('/AddBranchOffice', middleware.validateRequest([
     "sucursal",
     "idCliente"
 ], consts.IS_BODY_REQ), function (req, res) {
-    clientsController.addBranchOffice(req.body)
+    branchOfficesController.addBranchOffice(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});
@@ -23,7 +23,7 @@ router.post('/AddBranchOffice', middleware.validateRequest([
 });
 
 router.get('/GetBranchOffices', function (req, res) {
-    clientsController.getBranchOffices(req)
+    branchOfficesController.getBranchOffices(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);
@@ -39,7 +39,7 @@ router.get('/GetBranchOffices', function (req, res) {
 router.put('/UpdateBranchOffice', middleware.validateRequest([
     "id"
 ], consts.IS_BODY_REQ), function (req, res) {
-    clientsController.updateBranchOffice(req.body)
+    branchOfficesController.updateBranchOffice(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});

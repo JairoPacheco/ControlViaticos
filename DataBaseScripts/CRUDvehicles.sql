@@ -5,8 +5,7 @@ GO
 CREATE OR ALTER PROC addVehicle
 	@descripcion	VARCHAR(100), 
 	@montoKm		TMonto,
-	@idResponsable	INT,
-	@isActive		BIT
+	@idResponsable	INT
 AS
 BEGIN
 	--Ya existe un vehiculo activo con los mismos datos (codigo 1)

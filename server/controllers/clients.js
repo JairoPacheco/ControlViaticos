@@ -22,7 +22,7 @@ exports.updateClient = async (req) => {
         .input('clientId', sql.Int, req.clientId)
         .input('razonSocial', sql.VarChar(50), req.razonSocial)
         .input('razonComercial', sql.VarChar(50), req.razonComercial)
-        .input('isActive', sql.Int, req.isActive)
+        .input('isActive', sql.Bit, req.isActive)
         .execute('updateClient');
     return result;
 }

@@ -6,8 +6,7 @@ CREATE OR ALTER PROC addVehicle
 	@descripcion	VARCHAR(100), 
 	@montoKm		TMonto,
 	@idResponsable	INT,
-	@isActive		BIT,
-	@status	TINYINT	= 0 OUTPUT
+	@isActive		BIT
 AS
 BEGIN
 	--Ya existe un vehiculo activo con los mismos datos (codigo 1)

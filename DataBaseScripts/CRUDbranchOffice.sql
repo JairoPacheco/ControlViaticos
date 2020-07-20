@@ -4,8 +4,7 @@ GO
 --CRUD de sucursal
 CREATE OR ALTER PROC addBranchOffice 
 	@sucursal	VARCHAR(50), 
-	@idCliente	INT,
-	@status	TINYINT	= 0 OUTPUT
+	@idCliente	INT
 AS
 BEGIN
 	--Ya existe un sucursal activo con los mismos datos (codigo 1)

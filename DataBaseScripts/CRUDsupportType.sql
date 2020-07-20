@@ -3,8 +3,7 @@ GO
 
 --CRUD de tipo soporte
 CREATE OR ALTER PROC addSupportType 
-	@descripcion	VARCHAR(100),
-	@status	TINYINT	= 0 OUTPUT
+	@descripcion	VARCHAR(100)
 AS
 BEGIN
 	--Ya existe un tipo soporte activo con los mismos datos (codigo 1)

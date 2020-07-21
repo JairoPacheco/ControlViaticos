@@ -3,7 +3,8 @@ GO
 
 --CRUD de motivo
 CREATE OR ALTER PROC addReason
-	@descripcion	VARCHAR(100)
+	@descripcion	VARCHAR(100),
+	@status	TINYINT	= 0 OUTPUT
 AS
 BEGIN
 	--Ya existe un motivo activo con la misma descripcion (codigo 1)

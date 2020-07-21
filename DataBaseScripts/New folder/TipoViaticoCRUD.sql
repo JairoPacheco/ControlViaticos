@@ -3,7 +3,8 @@ GO
 
 --CRUD de tipo viatico
 CREATE OR ALTER PROC addViaticumType
-	@descripcion	VARCHAR(100)
+	@descripcion	VARCHAR(100),
+	@status	TINYINT	= 0 OUTPUT
 AS
 BEGIN
 	--Ya existe un tipo de viatico activo con la misma descripcion (codigo 1)

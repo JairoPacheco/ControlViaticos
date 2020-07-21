@@ -3,7 +3,8 @@ GO
 
 --CRUD de Tipo labor
 CREATE OR ALTER PROC addTaskType
-	@descripcion	VARCHAR(100)
+	@descripcion	VARCHAR(100),
+	@status	TINYINT	= 0 OUTPUT
 AS
 BEGIN
 	--Ya existe un tipo de labor activo con la misma descripcion (codigo 1)

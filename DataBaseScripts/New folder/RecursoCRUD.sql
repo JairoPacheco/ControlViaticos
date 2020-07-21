@@ -4,7 +4,8 @@ GO
 --CRUD de Recurso
 CREATE OR ALTER PROC addResource
 	@responsable	VARCHAR(50),
-	@descripcion	VARCHAR(100)
+	@descripcion	VARCHAR(100),
+	@status	TINYINT	= 0 OUTPUT
 AS
 BEGIN
 	--Ya existe un recurso activo con los mismos datos (codigo 1)

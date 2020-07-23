@@ -8,12 +8,18 @@ CREATE OR ALTER PROC addVehicle
 	@idResponsable	INT
 AS
 BEGIN
-	--Ya existe un vehiculo activo con los mismos datos (codigo 1)
+	--El responsable no existe (código 1)
+	IF NOT EXISTS(SELECT * FROM Recurso WHERE id = @idResponsable)
+	BEGIN
+		--Fallo
+		RETURN 1;
+	END
+	--Ya existe un vehiculo activo con los mismos datos (codigo 2)
 	IF EXISTS(SELECT * FROM Vehiculo WHERE (descripcion = @descripcion) 
 				AND (idResponsable = @idResponsable) AND (isActive = 1))
 	BEGIN
 		--Fallo
-		RETURN 1;
+		RETURN 2;
 	END
 	--Hay un vehiculo inactivo con los mismos datos, se habilita
 	DECLARE @idToActivate INT;
@@ -57,12 +63,18 @@ BEGIN
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otro vehiculo que tiene otro id con esos datos (código 2)
+	--El responsable no existe (código 2)
+	IF (@idResponsable IS NOT NULL) AND NOT EXISTS(SELECT * FROM Recurso WHERE id = @idResponsable)
+	BEGIN
+		--Fallo
+		RETURN 2;
+	END
+	--Ya hay otro vehiculo que tiene otro id con esos datos (código 3)
 	IF (@descripcion IS NOT NULL AND @montoKm IS NOT NULL AND @idResponsable IS NOT NULL AND @isActive IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Vehiculo WHERE (descripcion = @descripcion) 
 					AND (montoKm = @montoKm) AND (idResponsable = @idResponsable) AND (id != @id))
 	BEGIN
-		RETURN 2;
+		RETURN 3;
 	END
 
 	UPDATE Vehiculo SET

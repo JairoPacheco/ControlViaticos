@@ -7,12 +7,18 @@ CREATE OR ALTER PROC addBranchOffice
 	@idCliente	INT
 AS
 BEGIN
-	--Ya existe una sucursal activa con los mismos datos (codigo 1)
+	--El cliente no existe (código 1)
+	IF NOT EXISTS(SELECT * FROM Cliente WHERE id = @idCliente)
+	BEGIN
+		--Fallo
+		RETURN 1;
+	END
+	--Ya existe una sucursal activa con los mismos datos (codigo 2)
 	IF EXISTS(SELECT * FROM Sucursal WHERE (sucursal = @sucursal) 
 				AND (idCliente = @idCliente) AND (isActive = 1))
 	BEGIN
 		--Fallo
-		RETURN 1;
+		RETURN 2;
 	END
 	--Hay una sucursal inactiva con los mismos datos, se habilita
 	DECLARE @idToActivate INT;
@@ -55,18 +61,24 @@ BEGIN
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otra sucursal que tiene otro id con esos datos (código 2)
+	--El cliente no existe (código 2)
+	IF (@idCliente IS NOT NULL) AND NOT EXISTS(SELECT * FROM Cliente WHERE id = @idCliente)
+	BEGIN
+		--Fallo
+		RETURN 2;
+	END
+	--Ya hay otra sucursal que tiene otro id con esos datos (código 3)
 	IF (@sucursal IS NOT NULL AND @idCliente IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Sucursal WHERE (sucursal = @sucursal) 
 					AND (idCliente = @idCliente) AND (id != @id))
 	BEGIN
-		RETURN 2;
+		RETURN 3;
 	END
 
 	UPDATE Sucursal SET
-		sucursal		= ISNULL(@sucursal, sucursal),
-		idCliente		= ISNULL(@idCliente, idCliente),
-		isActive		= ISNULL(@isActive, isActive)
+		sucursal	= ISNULL(@sucursal, sucursal),
+		idCliente	= ISNULL(@idCliente, idCliente),
+		isActive	= ISNULL(@isActive, isActive)
 	WHERE id = @id;
 
 	--Operación exitosa

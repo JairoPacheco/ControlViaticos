@@ -57,7 +57,7 @@ BEGIN
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otro vehiculo con otro id con esos datos (código 2)
+	--Ya hay otro vehiculo que tiene otro id con esos datos (código 2)
 	IF (@descripcion IS NOT NULL AND @montoKm IS NOT NULL AND @idResponsable IS NOT NULL AND @isActive IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Vehiculo WHERE (descripcion = @descripcion) 
 					AND (montoKm = @montoKm) AND (idResponsable = @idResponsable) AND (id != @id))
@@ -68,7 +68,7 @@ BEGIN
 	UPDATE Vehiculo SET
 		descripcion		= ISNULL(@descripcion, descripcion),
 		montoKm			= ISNULL(@montoKm, montoKm),
-		idResponsable   = ISNULL(@idResponsable, idResponsable),
+		idResponsable	= ISNULL(@idResponsable, idResponsable),
 		isActive		= ISNULL(@isActive, isActive)
 	WHERE id = @id;
 

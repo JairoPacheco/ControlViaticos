@@ -2,9 +2,8 @@ USE ControlViaticos;
 GO
 
 --CRUD de tipo viatico
-CREATE OR ALTER PROC addViaticumType
-	@descripcion	VARCHAR(100),
-	@status	TINYINT	= 0 OUTPUT
+CREATE OR ALTER PROC addExpenseType
+	@descripcion	VARCHAR(100)
 AS
 BEGIN
 	--Ya existe un tipo de viatico activo con la misma descripcion (codigo 1)
@@ -33,7 +32,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC getViaticumType
+CREATE OR ALTER PROC getExpenseType
 AS
 BEGIN
 	SELECT * FROM TipoViatico WHERE isActive = 1;
@@ -43,29 +42,29 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC updateViaticumType
-	@ViaticumTypeId		INT,
+CREATE OR ALTER PROC updateExpenseType
+	@expenseTypeId		INT,
 	@descripcion	VARCHAR(100) = NULL,
 	@isActive		BIT	= NULL
 AS
 BEGIN
 	--El tipo de viatico a actualizar no existe (código 1)
-	IF NOT EXISTS (SELECT * FROM TipoViatico WHERE id = @ViaticumTypeId)
+	IF NOT EXISTS (SELECT * FROM TipoViatico WHERE id = @expenseTypeId)
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otro tipo de viatico con otro id con esos datos (código 2)
+	--Ya hay un tipo de viatico con otro id que tiene esos datos (código 2)
 	IF (@descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM TipoViatico WHERE (descripcion = @descripcion) 
-					AND (id != @ViaticumTypeId))
+					AND (id != @expenseTypeId))
 	BEGIN
 		RETURN 2;
 	END
 
 	UPDATE TipoViatico SET
-		descripcion		= ISNULL(@descripcion, descripcion),
-		isActive		= ISNULL(@isActive, isActive)
-	WHERE id = @ViaticumTypeId;
+		descripcion	= ISNULL(@descripcion, descripcion),
+		isActive	= ISNULL(@isActive, isActive)
+	WHERE id = @expenseTypeId;
 
 	--Operación exitosa
 	RETURN 0;

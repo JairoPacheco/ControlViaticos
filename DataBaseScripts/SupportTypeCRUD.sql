@@ -13,7 +13,7 @@ BEGIN
 		--Fallo
 		RETURN 1;
 	END
-	--Hay un tipo soporte: inactivo con los mismos datos, se habilita
+	--Hay un tipo soporte inactivo con los mismos datos, se habilita
 	DECLARE @idToActivate INT;
 	SELECT @idToActivate = id FROM TipoSoporte WHERE (descripcion = @descripcion) 
 				AND (isActive = 0)
@@ -53,7 +53,7 @@ BEGIN
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otro tipo soporte con otro id con esos datos (código 2)
+	--Ya hay otro tipo soporte que tiene otro id con esos datos (código 2)
 	IF (@descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM TipoSoporte WHERE (descripcion = @descripcion) 
 					AND (id != @id))
@@ -62,8 +62,8 @@ BEGIN
 	END
 
 	UPDATE TipoSoporte SET
-		descripcion		= ISNULL(@descripcion, descripcion),
-		isActive		= ISNULL(@isActive, isActive)
+		descripcion	= ISNULL(@descripcion, descripcion),
+		isActive	= ISNULL(@isActive, isActive)
 	WHERE id = @id;
 
 	--Operación exitosa

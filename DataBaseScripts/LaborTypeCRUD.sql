@@ -53,7 +53,7 @@ BEGIN
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otro tipo de labor con otro id con esos datos (código 2)
+	--Ya hay un tipo de labor con otro id que tiene esos datos (código 2)
 	IF (@descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM TipoLabor WHERE (descripcion = @descripcion) 
 					AND (id != @taskTypeId))
@@ -62,8 +62,8 @@ BEGIN
 	END
 
 	UPDATE TipoLabor SET
-		descripcion		= ISNULL(@descripcion, descripcion),
-		isActive		= ISNULL(@isActive, isActive)
+		descripcion	= ISNULL(@descripcion, descripcion),
+		isActive	= ISNULL(@isActive, isActive)
 	WHERE id = @taskTypeId;
 
 	--Operación exitosa

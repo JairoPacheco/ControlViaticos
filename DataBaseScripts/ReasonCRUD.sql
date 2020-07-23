@@ -53,7 +53,7 @@ BEGIN
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otro motivo con otro id con esos datos (código 2)
+	--Ya hay un motivo con otro id que tiene esos datos (código 2)
 	IF (@descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Motivo WHERE (descripcion = @descripcion) 
 					AND (id != @reasonId))
@@ -62,8 +62,8 @@ BEGIN
 	END
 
 	UPDATE Motivo SET
-		descripcion		= ISNULL(@descripcion, descripcion),
-		isActive		= ISNULL(@isActive, isActive)
+		descripcion	= ISNULL(@descripcion, descripcion),
+		isActive	= ISNULL(@isActive, isActive)
 	WHERE id = @reasonId;
 
 	--Operación exitosa

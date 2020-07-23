@@ -1,11 +1,10 @@
 USE ControlViaticos;
 GO
 
---CRUD de Recurso
+--CRUD de recursos
 CREATE OR ALTER PROC addResource
 	@responsable	VARCHAR(50),
-	@descripcion	VARCHAR(100),
-	@status	TINYINT	= 0 OUTPUT
+	@descripcion	VARCHAR(100)
 AS
 BEGIN
 	--Ya existe un recurso activo con los mismos datos (codigo 1)
@@ -34,7 +33,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC getResource
+CREATE OR ALTER PROC getResources
 AS
 BEGIN
 	SELECT * FROM Recurso WHERE isActive = 1;
@@ -45,30 +44,30 @@ END
 GO
 
 CREATE OR ALTER PROC updateResource
-	@resourseId		INT,
+	@id		INT,
 	@responsable	VARCHAR(50) = NULL,
 	@descripcion	VARCHAR(100) = NULL,
 	@isActive		BIT	= NULL
 AS
 BEGIN
 	--El recurso a actualizar no existe (código 1)
-	IF NOT EXISTS (SELECT * FROM Recurso WHERE id = @resourseId)
+	IF NOT EXISTS (SELECT * FROM Recurso WHERE id = @id)
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay otro recurso con otro id con esos datos (código 2)
-	IF (@resourseId IS NOT NULL AND @descripcion IS NOT NULL) 
+	--Ya hay otro recurso que tiene otro id con esos datos (código 2)
+	IF (@responsable IS NOT NULL AND @descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Recurso WHERE (responsable = @responsable) 
-					AND (descripcion = @descripcion) AND (id != @resourseId))
+					AND (descripcion = @descripcion) AND (id != @id))
 	BEGIN
 		RETURN 2;
 	END
 
 	UPDATE Recurso SET
-		responsable		= ISNULL(@responsable, responsable),
+		responsable	= ISNULL(@responsable, responsable),
 		descripcion	= ISNULL(@descripcion, descripcion),
-		isActive		= ISNULL(@isActive, isActive)
-	WHERE id = @resourseId;
+		isActive	= ISNULL(@isActive, isActive)
+	WHERE id = @id;
 
 	--Operación exitosa
 	RETURN 0;

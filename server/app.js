@@ -6,6 +6,10 @@ const app = express();
 
 // Routers
 const clientsRouter = require('./routes/clients');
+const branchOfficesRouter = require('./routes/branchOffices');
+const resourcesRouter = require('./routes/resources');
+const supportTypesRouter = require('./routes/supportTypes');
+const vehiclesRouter = require('./routes/vehicles');
 
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
@@ -14,5 +18,9 @@ app.use(helmet());
 
 // Routes
 app.use('/clients', clientsRouter);
+app.use('/branchOffices', branchOfficesRouter);
+app.use('/resources', resourcesRouter);
+app.use('/supportTypes', supportTypesRouter);
+app.use('/vehicles', vehiclesRouter);
 
 module.exports = app;

@@ -18,7 +18,7 @@ exports.getViaticumType = async (req) => {
 exports.updateViaticumType = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .input('viaticumTypeId', sql.Int, req.ViaticumTypeId)
+        .input('ViaticumTypeId', sql.Int, req.ViaticumTypeId)
         .input('descripcion', sql.VarChar(100), req.descripcion)
         .input('isActive', sql.Int, req.isActive)
         .execute('updateViaticumType');

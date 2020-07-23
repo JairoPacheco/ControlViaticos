@@ -36,7 +36,7 @@ router.get('/GetViaticumType', function (req, res) {
 });
 
 router.put('/UpdateViaticumType', middleware.validateRequest([
-    "viaticumTypeId"
+    "ViaticumTypeId"
 ], consts.IS_BODY_REQ), function (req, res) {
     viaticumTypeController.updateViaticumType(req.body)
         .then(result => {

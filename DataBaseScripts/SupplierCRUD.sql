@@ -43,28 +43,28 @@ END
 GO
 
 CREATE OR ALTER PROC updateSupplier
-	@supplierId		INT,
+	@id		INT,
 	@descripcion	VARCHAR(100) = NULL,
 	@isActive		BIT	= NULL
 AS
 BEGIN
 	--El tipo de viatico a actualizar no existe (código 1)
-	IF NOT EXISTS (SELECT * FROM Proveedor WHERE id = @supplierId)
+	IF NOT EXISTS (SELECT * FROM Proveedor WHERE id = @id)
 	BEGIN
 		RETURN 1;
 	END
 	--Ya hay un tipo de viatico con otro id que tiene esos datos (código 2)
 	IF (@descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Proveedor WHERE (descripcion = @descripcion) 
-					AND (id != @supplierId))
+					AND (id != @id))
 	BEGIN
 		RETURN 2;
 	END
 
-	UPDATE TipoViatico SET
+	UPDATE Proveedor SET
 		descripcion	= ISNULL(@descripcion, descripcion),
 		isActive	= ISNULL(@isActive, isActive)
-	WHERE id = @supplierId;
+	WHERE id = @id;
 
 	--Operación exitosa
 	RETURN 0;

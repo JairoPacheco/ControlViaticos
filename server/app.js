@@ -12,6 +12,7 @@ const laborsRouter = require('./routes/labors');
 const resourcesRouter = require('./routes/resources');
 const supportTypesRouter = require('./routes/supportTypes');
 const vehiclesRouter = require('./routes/vehicles');
+const suppliersRouter = require('./routes/suppliers');
 
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
@@ -26,5 +27,6 @@ app.use('/labors', laborsRouter);
 app.use('/resources', resourcesRouter);
 app.use('/supportTypes', supportTypesRouter);
 app.use('/vehicles', vehiclesRouter);
+app.use('/suppliers', suppliersRouter);
 
 module.exports = app;

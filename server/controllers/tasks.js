@@ -1,28 +1,28 @@
 const { poolPromise, sql } = require('../database');
 
-exports.addLabor = async (req) => {
+exports.addTask = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
         .input('descripcion', sql.VarChar(100), req.descripcion)
         .input('idTipoLabor', sql.Int, req.idTipoLabor)
-        .execute('addLabor');
+        .execute('addTask');
     return result;
 }
 
-exports.getLabors = async (req) => {
+exports.getTasks = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .execute('getLabors');
+        .execute('getTasks');
     return result;
 }
 
-exports.updateLabor = async (req) => {
+exports.updateTask = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
         .input('laborId', sql.Int, req.laborId)
         .input('descripcion', sql.VarChar(100), req.descripcion)
         .input('idTipoLabor', sql.Int, req.idTipoLabor)
         .input('isActive', sql.Bit, req.isActive)
-        .execute('updateLabor');
+        .execute('updateTask');
     return result;
 }

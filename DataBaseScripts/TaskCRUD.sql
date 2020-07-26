@@ -2,7 +2,7 @@ USE ControlViaticos;
 GO
 
 --CRUD de labor
-CREATE OR ALTER PROC addLabor
+CREATE OR ALTER PROC addTask
 	@descripcion	VARCHAR(100), 
 	@idTipoLabor	INT
 AS
@@ -39,18 +39,22 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC getLabors
+CREATE OR ALTER PROC getTasks
 AS
 BEGIN
-	SELECT * FROM Labor WHERE isActive = 1;
+	SELECT 
+			*,
+			(SELECT descripcion FROM TipoLabor WHERE id = idTipoLabor) AS tipoLabor
+	FROM Labor 
+	WHERE isActive = 1;
 
 	--Operación exitosa
 	RETURN 0;
 END
 GO
 
-CREATE OR ALTER PROC updateLabor
-	@laborId				INT,
+CREATE OR ALTER PROC updateTask
+	@laborId		INT,
 	@descripcion	VARCHAR(100) = NULL, 
 	@idTipoLabor	INT = NULL,
 	@isActive		BIT	= NULL

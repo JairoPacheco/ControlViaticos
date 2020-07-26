@@ -3,13 +3,13 @@ const router = express.Router();
 const middleware = require('../middleware/middleware');
 const consts = require('../config/constants');
 const HttpStatus = require('http-status-codes');
-const laborController = require('../controllers/labors');
+const laborController = require('../controllers/tasks');
 
-router.post('/AddLabor', middleware.validateRequest([
+router.post('/AddTask', middleware.validateRequest([
     "descripcion",
     "idTipoLabor"
 ], consts.IS_BODY_REQ), function (req, res) {
-    laborController.addLabor(req.body)
+    laborController.addTask(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});
@@ -22,8 +22,8 @@ router.post('/AddLabor', middleware.validateRequest([
         });
 });
 
-router.get('/GetLabors', function (req, res) {
-    laborController.getLabors(req)
+router.get('/GetTasks', function (req, res) {
+    laborController.getTasks(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);
@@ -36,10 +36,10 @@ router.get('/GetLabors', function (req, res) {
         });
 });
 
-router.put('/UpdateLabor', middleware.validateRequest([
+router.put('/UpdateTask', middleware.validateRequest([
     "laborId"
 ], consts.IS_BODY_REQ), function (req, res) {
-    laborController.updateLabor(req.body)
+    laborController.updateTask(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});

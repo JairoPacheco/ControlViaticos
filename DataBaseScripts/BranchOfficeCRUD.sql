@@ -42,7 +42,11 @@ GO
 CREATE OR ALTER PROC getBranchOffices
 AS
 BEGIN
-	SELECT * FROM Sucursal WHERE isActive = 1;
+	SELECT 
+			*,
+			(SELECT razonSocial FROM Cliente WHERE id = idCliente) AS cliente
+	FROM Sucursal
+	WHERE isActive = 1;
 
 	--Operación exitosa
 	RETURN 0;

@@ -10,7 +10,6 @@ const clientsRouter = require('./routes/clients');
 const reasonRouter = require('./routes/reason');
 const viaticumTypeRouter = require('./routes/viaticumType');
 const taskTypeRouter = require('./routes/taskType');
-const resourceRouter = require('./routes/resource');
 
 const reasonRouter = require('./routes/reason');
 const viaticumTypeRouter = require('./routes/viaticumType');

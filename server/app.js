@@ -17,6 +17,7 @@ const tasksRouter = require('./routes/tasks');
 const supportTypesRouter = require('./routes/supportTypes');
 const vehiclesRouter = require('./routes/vehicles');
 const suppliersRouter = require('./routes/suppliers');
+const eventsRouter = require('./routes/events');
 
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
@@ -35,5 +36,6 @@ app.use('/tasks', tasksRouter);
 app.use('/supportTypes', supportTypesRouter);
 app.use('/vehicles', vehiclesRouter);
 app.use('/suppliers', suppliersRouter);
+app.use('/events', eventsRouter);
 
 module.exports = app;

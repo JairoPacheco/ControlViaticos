@@ -19,7 +19,7 @@ exports.getResources = async (req) => {
 exports.updateResource = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .input('id', sql.Int, req.id)
+        .input('resourceId', sql.Int, req.resourceId)
         .input('responsable', sql.VarChar(50), req.responsable)
         .input('descripcion', sql.VarChar(100), req.descripcion)
         .input('isActive', sql.Bit, req.isActive)

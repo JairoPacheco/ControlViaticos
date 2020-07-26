@@ -3,12 +3,12 @@ const router = express.Router();
 const middleware = require('../middleware/middleware');
 const consts = require('../config/constants');
 const HttpStatus = require('http-status-codes');
-const taskTypeController = require('../controllers/taskType');
+const expenseTypesController = require('../controllers/expenseTypes');
 
-router.post('/AddTaskType', middleware.validateRequest([
+router.post('/AddExpenseType', middleware.validateRequest([
     "descripcion"
 ], consts.IS_BODY_REQ), function (req, res) {
-    taskTypeController.addTaskType(req.body)
+    expenseTypesController.addExpenseType(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});
@@ -21,8 +21,8 @@ router.post('/AddTaskType', middleware.validateRequest([
         });
 });
 
-router.get('/GetTaskType', function (req, res) {
-    taskTypeController.getTaskType(req)
+router.get('/GetExpenseTypes', function (req, res) {
+    expenseTypesController.getExpenseTypes(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);
@@ -35,10 +35,10 @@ router.get('/GetTaskType', function (req, res) {
         });
 });
 
-router.put('/UpdateTaskType', middleware.validateRequest([
-    "viaticumTypeId"
+router.put('/UpdateExpenseType', middleware.validateRequest([
+    "expenseTypeId"
 ], consts.IS_BODY_REQ), function (req, res) {
-    taskTypeController.updateTaskType(req.body)
+    expenseTypesController.updateExpenseType(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});

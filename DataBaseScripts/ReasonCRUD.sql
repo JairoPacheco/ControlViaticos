@@ -32,7 +32,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC getReason
+CREATE OR ALTER PROC getReasons
 AS
 BEGIN
 	SELECT * FROM Motivo WHERE isActive = 1;

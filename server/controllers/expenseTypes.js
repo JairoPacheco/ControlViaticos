@@ -1,26 +1,26 @@
 const { poolPromise, sql } = require('../database');
 
-exports.addTaskType = async (req) => {
+exports.addExpenseType = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
         .input('descripcion', sql.VarChar(100), req.descripcion)
-        .execute('addTaskType');
+        .execute('addExpenseType');
     return result;
 }
 
-exports.getTaskType = async (req) => {
+exports.getExpenseTypes = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .execute('getTaskType');
+        .execute('getExpenseTypes');
     return result;
 }
 
-exports.updateTaskType = async (req) => {
+exports.updateExpenseType = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .input('taskTypeId', sql.Int, req.taskTypeId)
+        .input('expenseTypeId', sql.Int, req.expenseTypeId)
         .input('descripcion', sql.VarChar(100), req.descripcion)
         .input('isActive', sql.Int, req.isActive)
-        .execute('updateTaskType');
+        .execute('updateExpenseType');
     return result;
 }

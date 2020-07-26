@@ -32,7 +32,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC getExpenseType
+CREATE OR ALTER PROC getExpenseTypes
 AS
 BEGIN
 	SELECT * FROM TipoViatico WHERE isActive = 1;
@@ -43,7 +43,7 @@ END
 GO
 
 CREATE OR ALTER PROC updateExpenseType
-	@expenseTypeId		INT,
+	@expenseTypeId	INT,
 	@descripcion	VARCHAR(100) = NULL,
 	@isActive		BIT	= NULL
 AS

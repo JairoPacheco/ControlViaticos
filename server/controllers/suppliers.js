@@ -8,10 +8,10 @@ exports.addSupplier = async (req) => {
     return result;
 }
 
-exports.getSupplier = async (req) => {
+exports.getSuppliers = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .execute('getSupplier');
+        .execute('getSuppliers');
     return result;
 }
 

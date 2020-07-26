@@ -4,8 +4,7 @@ GO
 --CRUD de clientes
 CREATE OR ALTER PROC addClient
 	@razonSocial	VARCHAR(50),
-	@razonComercial	VARCHAR(50),
-	@status	TINYINT	= 0 OUTPUT
+	@razonComercial	VARCHAR(50)
 AS
 BEGIN
 	--Ya existe un cliente activo con los mismos datos (codigo 1)

@@ -43,7 +43,11 @@ GO
 CREATE OR ALTER PROC getVehicles
 AS
 BEGIN
-	SELECT * FROM Vehiculo WHERE isActive = 1;
+	SELECT 
+			*, 
+			(SELECT descripcion FROM Recurso WHERE id=idResponsable) AS responsable
+	FROM Vehiculo
+	WHERE isActive = 1
 
 	--Operación exitosa
 	RETURN 0;

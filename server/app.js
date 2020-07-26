@@ -13,6 +13,7 @@ const resourcesRouter = require('./routes/resources');
 const supportTypesRouter = require('./routes/supportTypes');
 const vehiclesRouter = require('./routes/vehicles');
 const suppliersRouter = require('./routes/suppliers');
+const viaticsRouter = require('./routes/viatics');
 
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
@@ -28,5 +29,6 @@ app.use('/resources', resourcesRouter);
 app.use('/supportTypes', supportTypesRouter);
 app.use('/vehicles', vehiclesRouter);
 app.use('/suppliers', suppliersRouter);
+app.use('/viatics', viaticsRouter);
 
 module.exports = app;

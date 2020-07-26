@@ -4,23 +4,23 @@ exports.addViaticumType = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
         .input('descripcion', sql.VarChar(100), req.descripcion)
-        .execute('addViaticumType');
+        .execute('addExpenseType');
     return result;
 }
 
 exports.getViaticumType = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .execute('getViaticumType');
+        .execute('getExpenseType');
     return result;
 }
 
 exports.updateViaticumType = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .input('ViaticumTypeId', sql.Int, req.ViaticumTypeId)
+        .input('expenseTypeId', sql.Int, req.expenseTypeId)
         .input('descripcion', sql.VarChar(100), req.descripcion)
         .input('isActive', sql.Int, req.isActive)
-        .execute('updateViaticumType');
+        .execute('updateExpenseType');
     return result;
 }

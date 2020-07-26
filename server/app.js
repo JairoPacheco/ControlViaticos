@@ -7,7 +7,6 @@ const app = express();
 // Routers
 const branchOfficesRouter = require('./routes/branchOffices');
 const clientsRouter = require('./routes/clients');
-
 const reasonRouter = require('./routes/reason');
 const viaticumTypeRouter = require('./routes/viaticumType');
 const taskTypeRouter = require('./routes/taskType');
@@ -35,5 +34,6 @@ app.use('/tasks', tasksRouter);
 app.use('/supportTypes', supportTypesRouter);
 app.use('/vehicles', vehiclesRouter);
 app.use('/suppliers', suppliersRouter);
+
 
 module.exports = app;

@@ -7,9 +7,13 @@ const app = express();
 // Routers
 const branchOfficesRouter = require('./routes/branchOffices');
 const clientsRouter = require('./routes/clients');
+
+const reasonRouter = require('./routes/reason');
+const viaticumTypeRouter = require('./routes/viaticumType');
+const taskTypeRouter = require('./routes/taskType');
+const resourceRouter = require('./routes/resource');
 const costsRouter = require('./routes/costs');
 const laborsRouter = require('./routes/labors');
-const resourcesRouter = require('./routes/resources');
 const supportTypesRouter = require('./routes/supportTypes');
 const vehiclesRouter = require('./routes/vehicles');
 const suppliersRouter = require('./routes/suppliers');
@@ -22,9 +26,12 @@ app.use(helmet());
 // Routes
 app.use('/branchOffices', branchOfficesRouter);
 app.use('/clients', clientsRouter);
+app.use('/reason', reasonRouter);
+app.use('/viaticumType', viaticumTypeRouter);
+app.use('/taskType', taskTypeRouter);
+app.use('/resource', resourceRouter);
 app.use('/costs', costsRouter);
 app.use('/labors', laborsRouter);
-app.use('/resources', resourcesRouter);
 app.use('/supportTypes', supportTypesRouter);
 app.use('/vehicles', vehiclesRouter);
 app.use('/suppliers', suppliersRouter);

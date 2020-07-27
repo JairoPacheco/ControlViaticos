@@ -113,13 +113,13 @@ CREATE TABLE Recurso(
 );
 
 CREATE TABLE Evento(
-	id					INT IDENTITY(1,1)	NOT NULL, 
-	fecha				TFecha				NOT NULL, 
+	id					INT IDENTITY(1,1)	NOT NULL,
+	fecha				TFecha				NOT NULL,
+	hora				TIME				NOT NULL,
 	trabajo				VARCHAR(512)		NOT NULL, -- TRABAJO REALIZADO
-	tieneContrato		BIT					NOT NULL, 
-	duracion			TIME				NOT NULL, 
-	problemaReportado	VARCHAR(512)		NOT NULL, 
-	problemaResuelto	BIT					NOT NULL, 
+	duracion			TIME				NOT NULL,
+	problemaReportado	VARCHAR(512)		NOT NULL,
+	problemaResuelto	BIT					NOT NULL,
 	idSucursal			INT					NOT NULL, --FK
 	idCentroCosto		INT					NOT NULL, --FK
 	idLabor				INT					NOT NULL, --FK

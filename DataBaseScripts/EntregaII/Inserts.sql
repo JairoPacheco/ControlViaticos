@@ -63,11 +63,12 @@ VALUES ('Administracion'),
        ('Clientes');
 GO
 
-INSERT Evento (fecha, trabajo, tieneContrato, duracion, problemaReportado, problemaResuelto, idSucursal, 
+INSERT Evento (fecha, hora, trabajo, duracion, problemaReportado, problemaResuelto, idSucursal, 
                 idCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
-VALUES ('2020-06-20', 'Visita a oficinas de NCQ', 0, '2:00:00', 'Visita a oficinas de NCQ', 1, 1, 1, 1, 1, 1, 1),
-       ('2020-07-10', 'Visita al TEC', 0, '3:20:00', 'Visita al TEC', 1, 1, 2, 1, 1, 1, 2),
-       ('2020-06-25', 'Entrega proyecto bases de datos 1', 0, '1:00:00', 'Entrega proyecto bases de datos 1', 1, 1, 3, 1, 1, 1, 3);
+VALUES ('2020-06-20', '13:30', 'Visita a oficinas de NCQ', '2:00:00', 'Visita a oficinas de NCQ', 1, 1, 1, 1, 1, 1, 1),
+	   ('2020-07-20', '12:30', 'Visita a oficinas de NCQ', '2:00:00', 'AK7', 1, 2, 2, 2, 2, 2, 2),
+       ('2020-07-10', '10:25', 'Visita al TEC', '3:20:00', 'Visita al TEC', 1, 3, 2, 1, 2, 1, 3),
+       ('2020-06-25', '20:35', 'Entrega proyecto bases de datos 1', '1:00:00', 'Entrega proyecto bases de datos 1', 1, 1, 3, 1, 1, 1, 3);
 GO
 
 INSERT INTO Proveedor(descripcion)

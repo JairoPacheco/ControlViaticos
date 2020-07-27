@@ -21,7 +21,7 @@ router.post('/AddTaskType', middleware.validateRequest([
         });
 });
 
-router.get('/GetTaskType', function (req, res) {
+router.get('/GetTaskTypes', function (req, res) {
     taskTypesController.getTaskTypes(req)
         .then(result => {
             if (result.returnValue == 0) {

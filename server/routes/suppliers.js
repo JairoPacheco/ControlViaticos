@@ -21,8 +21,8 @@ router.post('/AddSupplier', middleware.validateRequest([
         });
 });
 
-router.get('/GetSupplier', function (req, res) {
-    suppliersController.getSupplier(req)
+router.get('/GetSuppliers', function (req, res) {
+    suppliersController.getSuppliers(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);

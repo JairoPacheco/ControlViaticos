@@ -32,7 +32,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC getTaskType
+CREATE OR ALTER PROC getTaskTypes
 AS
 BEGIN
 	SELECT * FROM TipoLabor WHERE isActive = 1;

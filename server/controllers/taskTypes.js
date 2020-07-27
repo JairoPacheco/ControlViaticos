@@ -8,10 +8,10 @@ exports.addTaskType = async (req) => {
     return result;
 }
 
-exports.getTaskType = async (req) => {
+exports.getTaskTypes = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .execute('getTaskType');
+        .execute('getTaskTypes');
     return result;
 }
 

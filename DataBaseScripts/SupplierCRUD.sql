@@ -32,7 +32,7 @@ BEGIN
 END
 GO
 
-CREATE OR ALTER PROC getSupplier
+CREATE OR ALTER PROC getSuppliers
 AS
 BEGIN
 	SELECT * FROM Proveedor WHERE isActive = 1;
@@ -43,17 +43,17 @@ END
 GO
 
 CREATE OR ALTER PROC updateSupplier
-	@id		INT,
+	@id				INT,
 	@descripcion	VARCHAR(100) = NULL,
 	@isActive		BIT	= NULL
 AS
 BEGIN
-	--El tipo de viatico a actualizar no existe (código 1)
+	--El proveedor a actualizar no existe (código 1)
 	IF NOT EXISTS (SELECT * FROM Proveedor WHERE id = @id)
 	BEGIN
 		RETURN 1;
 	END
-	--Ya hay un tipo de viatico con otro id que tiene esos datos (código 2)
+	--Ya hay un proveedor con otro id que tiene esos datos (código 2)
 	IF (@descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Proveedor WHERE (descripcion = @descripcion) 
 					AND (id != @id))

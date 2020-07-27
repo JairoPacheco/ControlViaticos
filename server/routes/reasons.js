@@ -3,12 +3,12 @@ const router = express.Router();
 const middleware = require('../middleware/middleware');
 const consts = require('../config/constants');
 const HttpStatus = require('http-status-codes');
-const taskTypeController = require('../controllers/taskType');
+const reasonsController = require('../controllers/reasons');
 
-router.post('/AddTaskType', middleware.validateRequest([
+router.post('/AddReason', middleware.validateRequest([
     "descripcion"
 ], consts.IS_BODY_REQ), function (req, res) {
-    taskTypeController.addTaskType(req.body)
+    reasonsController.addReason(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});
@@ -21,8 +21,8 @@ router.post('/AddTaskType', middleware.validateRequest([
         });
 });
 
-router.get('/GetTaskType', function (req, res) {
-    taskTypeController.getTaskType(req)
+router.get('/GetReasons', function (req, res) {
+    reasonsController.getReasons(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);
@@ -35,10 +35,10 @@ router.get('/GetTaskType', function (req, res) {
         });
 });
 
-router.put('/UpdateTaskType', middleware.validateRequest([
-    "viaticumTypeId"
+router.put('/UpdateReason', middleware.validateRequest([
+    "reasonId"
 ], consts.IS_BODY_REQ), function (req, res) {
-    taskTypeController.updateTaskType(req.body)
+    reasonsController.updateReason(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});

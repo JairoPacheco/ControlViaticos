@@ -3,12 +3,12 @@ const router = express.Router();
 const middleware = require('../middleware/middleware');
 const consts = require('../config/constants');
 const HttpStatus = require('http-status-codes');
-const reasonController = require('../controllers/reason');
+const expenseTypesController = require('../controllers/expenseTypes');
 
-router.post('/AddReason', middleware.validateRequest([
+router.post('/AddExpenseType', middleware.validateRequest([
     "descripcion"
 ], consts.IS_BODY_REQ), function (req, res) {
-    reasonController.addReason(req.body)
+    expenseTypesController.addExpenseType(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});
@@ -21,8 +21,8 @@ router.post('/AddReason', middleware.validateRequest([
         });
 });
 
-router.get('/GetReason', function (req, res) {
-    reasonController.getReason(req)
+router.get('/GetExpenseTypes', function (req, res) {
+    expenseTypesController.getExpenseTypes(req)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.OK).json(result.recordset);
@@ -35,10 +35,10 @@ router.get('/GetReason', function (req, res) {
         });
 });
 
-router.put('/UpdateReason', middleware.validateRequest([
-    "reasonId"
+router.put('/UpdateExpenseType', middleware.validateRequest([
+    "expenseTypeId"
 ], consts.IS_BODY_REQ), function (req, res) {
-    reasonController.updateReason(req.body)
+    expenseTypesController.updateExpenseType(req.body)
         .then(result => {
             if (result.returnValue == 0) {
                 res.status(HttpStatus.NO_CONTENT).json({});

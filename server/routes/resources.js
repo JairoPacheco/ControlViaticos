@@ -37,7 +37,7 @@ router.get('/GetResources', function (req, res) {
 });
 
 router.put('/UpdateResource', middleware.validateRequest([
-    "id"
+    "resourceId"
 ], consts.IS_BODY_REQ), function (req, res) {
     resourcesController.updateResource(req.body)
         .then(result => {

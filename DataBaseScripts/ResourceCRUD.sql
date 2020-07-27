@@ -44,21 +44,21 @@ END
 GO
 
 CREATE OR ALTER PROC updateResource
-	@id		INT,
+	@resourceId		INT,
 	@responsable	VARCHAR(50) = NULL,
 	@descripcion	VARCHAR(100) = NULL,
 	@isActive		BIT	= NULL
 AS
 BEGIN
 	--El recurso a actualizar no existe (código 1)
-	IF NOT EXISTS (SELECT * FROM Recurso WHERE id = @id)
+	IF NOT EXISTS (SELECT * FROM Recurso WHERE id = @resourceId)
 	BEGIN
 		RETURN 1;
 	END
 	--Ya hay otro recurso que tiene otro id con esos datos (código 2)
 	IF (@responsable IS NOT NULL AND @descripcion IS NOT NULL) 
 		AND EXISTS(SELECT * FROM Recurso WHERE (responsable = @responsable) 
-					AND (descripcion = @descripcion) AND (id != @id))
+					AND (descripcion = @descripcion) AND (id != @resourceId))
 	BEGIN
 		RETURN 2;
 	END
@@ -67,7 +67,7 @@ BEGIN
 		responsable	= ISNULL(@responsable, responsable),
 		descripcion	= ISNULL(@descripcion, descripcion),
 		isActive	= ISNULL(@isActive, isActive)
-	WHERE id = @id;
+	WHERE id = @resourceId;
 
 	--Operación exitosa
 	RETURN 0;

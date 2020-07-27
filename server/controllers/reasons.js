@@ -1,26 +1,26 @@
 const { poolPromise, sql } = require('../database');
 
-exports.addViaticumType = async (req) => {
+exports.addReason = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
         .input('descripcion', sql.VarChar(100), req.descripcion)
-        .execute('addViaticumType');
+        .execute('addReason');
     return result;
 }
 
-exports.getViaticumType = async (req) => {
+exports.getReasons = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .execute('getViaticumType');
+        .execute('getReasons');
     return result;
 }
 
-exports.updateViaticumType = async (req) => {
+exports.updateReason = async (req) => {
     const pool = await poolPromise;
     const result = await pool.request()
-        .input('ViaticumTypeId', sql.Int, req.ViaticumTypeId)
+        .input('reasonId', sql.Int, req.reasonId)
         .input('descripcion', sql.VarChar(100), req.descripcion)
         .input('isActive', sql.Int, req.isActive)
-        .execute('updateViaticumType');
+        .execute('updateReason');
     return result;
 }

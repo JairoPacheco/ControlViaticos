@@ -78,11 +78,11 @@ VALUES ('Panadería Panchita'),
 GO
 
 
-INSERT INTO Viatico(fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, idProveedor, idResponsable, idEvento)
-VALUES ('2020-06-20', NULL, 500, 1, 'Pago de kilometraje', 'KM-8492', 3, NULL, 1, 1),
-	   ('2020-07-10', '5673554214', 10000, 1, 'Pago de gasolina', 'GA-5468', 2, 2, 2, 2),
-	   ('2020-06-25', '4532134792', 5000, 1, 'Comida', 'CO-5341', 1, 1, 3, 3),
-	   ('2020-06-25', '4532134793', 2000, 2, 'Más comida', 'CO-5271', 1, 1, 3, 3);
+INSERT INTO Viatico(fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, idProveedor, idEvento)
+VALUES ('2020-06-20', NULL, 500, 1, 'Pago de kilometraje', 'KM-8492', 3, NULL, 1),
+	   ('2020-07-10', '5673554214', 10000, 1, 'Pago de gasolina', 'GA-5468', 2, 2, 2),
+	   ('2020-06-25', '4532134792', 5000, 1, 'Comida', 'CO-5341', 1, 1, 3),
+	   ('2020-06-25', '4532134793', 2000, 2, 'Más comida', 'CO-5271', 1, 1, 3);
 GO
 
 INSERT INTO Kilometraje(idViatico, kmRecorridos, idVehiculo)

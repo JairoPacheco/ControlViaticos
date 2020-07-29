@@ -1,19 +1,19 @@
 USE ControlViaticos;
 GO
 
---Temporary table to insert products
-CREATE TYPE ExpenseList AS TABLE
-(
-	fecha			DATE			NOT NULL,
+--Temporary table to insert or modify expenses
+CREATE TYPE ExpenseList AS TABLE(
+	id				INT,
+	fecha			DATE,
 	factura			VARCHAR(50),
-	monto			MONEY			NOT NULL,
-	numPagos		INT				NOT NULL,
-	notas			VARCHAR(512)	NOT NULL,
-	boleta			CHAR(7)			NOT NULL,
-	idTipoViatico	INT				NOT NULL,
+	monto			MONEY,
+	numPagos		INT,
+	notas			VARCHAR(512),
+	boleta			CHAR(7),
+	idTipoViatico	INT,
 	idProveedor		INT,
-	idResponsable	INT				NOT NULL,
-	kmRecorridos	FLOAT,
-	idVehiculo		INT
+	idResponsable	INT,
+	idVehiculo		INT,
+	kmRecorridos	FLOAT
 );
 GO

@@ -55,6 +55,22 @@ router.get('/GetEvent', middleware.validateRequest([
         });
 });
 
+router.put('/UpdateEvent', middleware.validateRequest([
+    "idEvento"
+], consts.IS_BODY_REQ), function (req, res) {
+    eventsController.updateEvent(req.body)
+        .then(result => {
+            if (result.returnValue == 0) {
+                res.status(HttpStatus.NO_CONTENT).json({});
+            } else {
+                res.status(HttpStatus.BAD_REQUEST).json({ statusCode: result.returnValue });
+            }
+        })
+        .catch(err => {
+            res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: err.message });
+        });
+});
+
 router.delete('/DeleteEvent', middleware.validateRequest([
     "eventId",
 ], !consts.IS_BODY_REQ), function (req, res) {

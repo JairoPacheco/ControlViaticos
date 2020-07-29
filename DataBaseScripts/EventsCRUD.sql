@@ -32,7 +32,7 @@ BEGIN
 	IF NOT EXISTS(SELECT id FROM TipoSoporte WHERE id = @idTipoSoporte)
 		RETURN 4;
 
-	-- Si no existe la centro de costo (código 5)
+	-- Si no existe el centro de costo (código 5)
 	IF NOT EXISTS(SELECT id FROM Motivo WHERE id = @idMotivo)
 		RETURN 5;
 
@@ -46,45 +46,12 @@ BEGIN
 			VALUES (@fecha, @hora, @trabajo, @duracion, @problemaReportado, @problemaResuelto,
 					@idSucursal, @idCentroCosto, @idLabor, @idTipoSoporte, @idMotivo);
 
-			DECLARE @fechaV TFecha, @factura VARCHAR(50), @monto MONEY, @numPagos INT, @notas VARCHAR(512),
-					@boleta CHAR(7), @idTipoViatico INT, @idProveedor INT, @idResponsable INT, @kmRecorridos FLOAT,
-					@idVehiculo INT;
-			DECLARE cursor_viaticos CURSOR
-			FOR SELECT * FROM @viaticos
-
-			OPEN cursor_viaticos
-
-			FETCH NEXT FROM cursor_viaticos INTO 
-				@fechaV, @factura, @monto, @numPagos, @notas, @boleta,
-				@idTipoViatico, @idProveedor, @idResponsable, @kmRecorridos, @idVehiculo;
-
-			WHILE @@FETCH_STATUS = 0
-			BEGIN
-				INSERT INTO Viatico(fecha, factura, monto, numPagos, notas, boleta,
-									idTipoViatico, idProveedor, idResponsable, idEvento)
-				VALUES (@fechaV, @factura, @monto, @numPagos, @notas, @boleta, 
-						@idTipoViatico, @idProveedor, @idResponsable, (SELECT id FROM @eventIds));
-
-				--Es kilometraje
-				IF @idVehiculo IS NOT NULL AND @kmRecorridos IS NOT NULL
-					BEGIN
-						INSERT INTO Kilometraje(idViatico, idVehiculo, kmRecorridos)
-						VALUES (SCOPE_IDENTITY(), @idVehiculo, @kmRecorridos)
-					END
-				--Es gasolina
-				ELSE IF @idVehiculo IS NOT NULL
-					BEGIN
-						INSERT INTO Gasolina(idViatico, idVehiculo)
-						VALUES (SCOPE_IDENTITY(), @idVehiculo)
-					END
-
-				FETCH NEXT FROM cursor_viaticos INTO 
-							@fechaV, @factura, @monto, @numPagos, @notas, @boleta,
-							@idTipoViatico, @idProveedor, @idResponsable, @kmRecorridos, @idVehiculo;
-			END
-
-			CLOSE cursor_viaticos;
-			DEALLOCATE cursor_viaticos;
+			INSERT INTO Viatico(fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, 
+								idProveedor, idResponsable, idVehiculo, kmRecorridos, idEvento)
+			SELECT fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, 
+					idProveedor, idResponsable, idVehiculo, kmRecorridos,
+					(SELECT id FROM @eventIds)
+			FROM @viaticos
 
 			COMMIT;
 			RETURN 0;
@@ -95,6 +62,74 @@ BEGIN
 
 			-- No se puedo insertar rollback
 			RETURN 9;
+		END CATCH
+END
+GO
+
+CREATE OR ALTER PROC updateEvent
+	@idEvento			INT,
+	@fecha				TFecha,
+	@hora				TIME,
+	@trabajo			VARCHAR(100),
+	@duracion			TIME,
+	@problemaReportado	VARCHAR(100),
+	@problemaResuelto	BIT,
+	@idSucursal			INT,
+	@idCentroCosto		INT,
+	@idLabor			INT,
+	@idTipoSoporte		INT,
+	@idMotivo			INT,
+	@viaticos			ExpenseList READONLY
+AS
+BEGIN
+	BEGIN TRANSACTION
+		BEGIN TRY
+			UPDATE Evento SET
+				fecha				= ISNULL(@fecha, fecha),
+				hora				= ISNULL(@hora, hora),
+				trabajo				= ISNULL(@trabajo, trabajo),
+				duracion			= ISNULL(@duracion, duracion),
+				problemaReportado	= ISNULL(@problemaReportado, problemaReportado),
+				problemaResuelto	= ISNULL(@problemaResuelto, problemaResuelto),
+				idSucursal			= ISNULL(@idSucursal, idSucursal),
+				idCentroCosto		= ISNULL(@idCentroCosto, idCentroCosto),
+				idLabor				= ISNULL(@idLabor, idLabor),
+				idTipoSoporte		= ISNULL(@idTipoSoporte, idTipoSoporte),
+				idMotivo			= ISNULL(@idMotivo, idMotivo)
+			WHERE id = @idEvento;
+
+			MERGE Viatico V USING @viaticos VA
+			ON V.id = VA.id
+			WHEN MATCHED THEN 
+				UPDATE SET
+					fecha			= ISNULL(VA.fecha, V.fecha),
+					factura			= VA.factura,
+					monto			= ISNULL(VA.monto, V.monto),
+					numPagos		= ISNULL(VA.numPagos, V.numPagos),
+					notas			= ISNULL(VA.notas, V.notas),
+					boleta			= ISNULL(VA.boleta, V.boleta),
+					idTipoViatico	= ISNULL(VA.idTipoViatico, V.idTipoViatico),
+					idProveedor		= VA.idProveedor,
+					idResponsable	= ISNULL(VA.idResponsable, V.idResponsable),
+					idVehiculo		= VA.idVehiculo,
+					kmRecorridos	= VA.kmRecorridos
+			WHEN NOT MATCHED BY TARGET THEN 
+				INSERT (fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, 
+						idProveedor, idResponsable, idVehiculo, kmRecorridos, idEvento)
+				VALUES (VA.fecha, VA.factura, VA.monto, VA.numPagos, VA.notas, VA.boleta, VA.idTipoViatico, 
+						VA.idProveedor, VA.idResponsable, VA.idVehiculo, VA.kmRecorridos, @idEvento)
+			WHEN NOT MATCHED BY SOURCE AND V.idEvento = @idEvento THEN
+				DELETE;
+
+			COMMIT;
+			RETURN 0;
+		END TRY
+
+		BEGIN CATCH
+			ROLLBACK TRANSACTION;
+
+			-- No se puedo insertar rollback
+			THROW;
 		END CATCH
 END
 GO
@@ -127,11 +162,8 @@ BEGIN
 			idTipoSoporte, idMotivo,
 			(SELECT V.id, fecha, factura, monto, numPagos, notas,
 					boleta,	idTipoViatico, idProveedor, V.idResponsable,
-					G.idVehiculo AS idVehiculoG, kmRecorridos,
-					K.idVehiculo AS idVehiculoK
+					idVehiculo, kmRecorridos
 			FROM Viatico V
-				LEFT JOIN Gasolina G ON V.id = G.idViatico
-				LEFT JOIN Kilometraje K ON V.id = K.idViatico 
 			WHERE idEvento = E.id
 			FOR JSON PATH) AS viaticos
 	FROM Evento E WHERE id = @eventId

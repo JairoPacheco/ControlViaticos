@@ -64,11 +64,11 @@ VALUES ('Administracion'),
 GO
 
 INSERT Evento (fecha, hora, trabajo, duracion, problemaReportado, problemaResuelto, idSucursal, 
-                idCentroCosto, idLabor, idTipoSoporte, idMotivo, idResponsable)
-VALUES ('2020-06-20', '13:30', 'Visita a oficinas de NCQ', '2:00:00', 'Visita a oficinas de NCQ', 1, 1, 1, 1, 1, 1, 1),
-	   ('2020-07-20', '12:30', 'Visita a oficinas de NCQ', '2:00:00', 'AK7', 1, 2, 2, 2, 2, 2, 2),
-       ('2020-07-10', '10:25', 'Visita al TEC', '3:20:00', 'Visita al TEC', 1, 3, 2, 1, 2, 1, 3),
-       ('2020-06-25', '20:35', 'Entrega proyecto bases de datos 1', '1:00:00', 'Entrega proyecto bases de datos 1', 1, 1, 3, 1, 1, 1, 3);
+                idCentroCosto, idLabor, idTipoSoporte, idMotivo)
+VALUES ('2020-06-20', '13:30', 'Visita a oficinas de NCQ', '2:00:00', 'Visita a oficinas de NCQ', 1, 1, 1, 1, 1, 1),
+	   ('2020-07-20', '12:30', 'Visita a oficinas de NCQ', '2:00:00', 'AK7', 1, 2, 2, 2, 2, 2),
+       ('2020-07-10', '10:25', 'Visita al TEC', '3:20:00', 'Visita al TEC', 1, 3, 2, 1, 2, 1),
+       ('2020-06-25', '20:35', 'Entrega proyecto bases de datos 1', '1:00:00', 'Entrega proyecto bases de datos 1', 1, 1, 3, 1, 1, 1);
 GO
 
 INSERT INTO Proveedor(descripcion)
@@ -78,17 +78,10 @@ VALUES ('Panadería Panchita'),
 GO
 
 
-INSERT INTO Viatico(fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, idProveedor, idEvento)
-VALUES ('2020-06-20', NULL, 500, 1, 'Pago de kilometraje', 'KM-8492', 3, NULL, 1),
-	   ('2020-07-10', '5673554214', 10000, 1, 'Pago de gasolina', 'GA-5468', 2, 2, 2),
-	   ('2020-06-25', '4532134792', 5000, 1, 'Comida', 'CO-5341', 1, 1, 3),
-	   ('2020-06-25', '4532134793', 2000, 2, 'Más comida', 'CO-5271', 1, 1, 3);
-GO
-
-INSERT INTO Kilometraje(idViatico, kmRecorridos, idVehiculo)
-VALUES (1, 50, 2);
-GO
-
-INSERT INTO Gasolina(idViatico, idVehiculo)
-VALUES (2, 3);
+INSERT INTO Viatico(fecha, factura, monto, numPagos, notas, boleta, idTipoViatico, idProveedor, idResponsable, 
+					idEvento, idVehiculo, kmRecorridos)
+VALUES ('2020-06-20', NULL, 500, 1, 'Pago de kilometraje', 'KM-8492', 3, NULL, 1, 1, 2, 50),
+	   ('2020-07-10', '5673554214', 10000, 1, 'Pago de gasolina', 'GA-5468', 2, 2, 2, 2, 3, NULL),
+	   ('2020-06-25', '4532134792', 5000, 1, 'Comida', 'CO-5341', 1, 1, 3, 3, NULL, NULL),
+	   ('2020-06-25', '4532134793', 2000, 2, 'Más comida', 'CO-5271', 1, 1, 1, 3, NULL, NULL);
 GO

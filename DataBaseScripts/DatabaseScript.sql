@@ -113,27 +113,24 @@ CREATE TABLE Recurso(
 );
 
 CREATE TABLE Evento(
-	id					INT IDENTITY(1,1)	NOT NULL, 
-	fecha				TFecha				NOT NULL, 
+	id					INT IDENTITY(1,1)	NOT NULL,
+	fecha				DATE				NOT NULL DEFAULT GETDATE(),
+	hora				TIME				NOT NULL,
 	trabajo				VARCHAR(512)		NOT NULL, -- TRABAJO REALIZADO
-	tieneContrato		BIT					NOT NULL, 
-	duracion			TIME				NOT NULL, 
-	problemaReportado	VARCHAR(512)		NOT NULL, 
-	problemaResuelto	BIT					NOT NULL, 
+	duracion			TIME				NOT NULL,
+	problemaReportado	VARCHAR(512)		NOT NULL,
+	problemaResuelto	BIT					NOT NULL,
 	idSucursal			INT					NOT NULL, --FK
 	idCentroCosto		INT					NOT NULL, --FK
 	idLabor				INT					NOT NULL, --FK
 	idTipoSoporte		INT					NOT NULL, --FK
 	idMotivo			INT					NOT NULL, --FK
-	idResponsable		INT					NOT NULL, --FK
-	isActive			BIT	DEFAULT 1		NOT NULL,
 	CONSTRAINT PK_Evento PRIMARY KEY (id),
 	CONSTRAINT FK_Evento_Sucursal FOREIGN KEY (idSucursal) REFERENCES Sucursal(id),
 	CONSTRAINT FK_Evento_CentroCosto FOREIGN KEY (idCentroCosto) REFERENCES CentroCosto(id),
 	CONSTRAINT FK_Evento_Labor FOREIGN KEY (idLabor) REFERENCES Labor(id),
 	CONSTRAINT FK_Evento_TipoSoporte FOREIGN KEY (idTipoSoporte) REFERENCES TipoSoporte(id),
 	CONSTRAINT FK_Evento_Motivo FOREIGN KEY (idMotivo) REFERENCES Motivo(id),
-	CONSTRAINT FK_Evento_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id)
 );
 
 CREATE TABLE TipoViatico(
@@ -153,7 +150,7 @@ CREATE TABLE Proveedor(
 CREATE TABLE Vehiculo(
 	id				INT IDENTITY(1,1)	NOT NULL, 
 	descripcion		VARCHAR(100)		NOT NULL, 
-	montoKm			TMonto				NOT NULL,
+	montoKm			MONEY				NOT NULL DEFAULT 0 CHECK (montoKm >= 0),
 	idResponsable	INT					NOT NULL,
 	isActive		BIT	DEFAULT 1		NOT NULL,
 	CONSTRAINT PK_Vehiculo PRIMARY KEY (id),
@@ -162,35 +159,22 @@ CREATE TABLE Vehiculo(
 
 CREATE TABLE Viatico(
 	id				INT IDENTITY(1,1)	NOT NULL, 
-	fecha			TFecha				NOT NULL,
+	fecha			DATE				NOT NULL DEFAULT GETDATE(),
 	factura			VARCHAR(50),
-	monto			TMonto				NOT NULL, 
-	numPagos		INT					NOT NULL, 
+	monto			FLOAT				NOT NULL DEFAULT 0 CHECK (monto >= 0), 
+	numPagos		INT					NOT NULL CHECK (numPagos >= 0), 
 	notas			VARCHAR(512)		NOT NULL,
-	boleta			TBoleta				NOT NULL, --CA-9034
+	boleta			CHAR(7)				NOT NULL CHECK (boleta LIKE '[a-Z][a-Z]-[0-9][0-9][0-9][0-9]'), --CA-9034
 	idTipoViatico	INT					NOT NULL, --FK
 	idProveedor		INT,                          --FK
 	idResponsable	INT					NOT NULL, --FK
 	idEvento		INT					NOT NULL, --FK
-	isActive		BIT	DEFAULT 1		NOT NULL,
+	idVehiculo		INT,
+	kmRecorridos	FLOAT CHECK (kmRecorridos >= 0),
 	CONSTRAINT PK_Viatico PRIMARY KEY (id),
 	CONSTRAINT FK_Viatico_TipoViatico FOREIGN KEY (idTipoViatico) REFERENCES TipoViatico(id),
 	CONSTRAINT FK_Viatico_Proveedor FOREIGN KEY (idProveedor) REFERENCES Proveedor(id),
 	CONSTRAINT FK_Viatico_Recurso FOREIGN KEY (idResponsable) REFERENCES Recurso(id),
-	CONSTRAINT FK_Viatico_Evento FOREIGN KEY (idEvento) REFERENCES Evento(id)
-);
-
-CREATE TABLE Gasolina(
-	idViatico	INT	NOT NULL,
-	idVehiculo	INT	NOT NULL,
-	CONSTRAINT FK_Gasolina_Viatico FOREIGN KEY (idViatico) REFERENCES Viatico(id),
-	CONSTRAINT FK_Gasolina_Vehiculo FOREIGN KEY (idVehiculo) REFERENCES Vehiculo(id)
-);
-
-CREATE TABLE Kilometraje(
-	idViatico		INT			NOT NULL,
-	kmRecorridos	TKilometros	NOT NULL,
-	idVehiculo		INT			NOT NULL,
-	CONSTRAINT FK_Kilometraje_Viatico FOREIGN KEY (idViatico) REFERENCES Viatico(id),
-	CONSTRAINT FK_Kilometraje_Vehiculo FOREIGN KEY (idVehiculo) REFERENCES Vehiculo(id)
+	CONSTRAINT FK_Viatico_Vehiculo FOREIGN KEY (idVehiculo) REFERENCES Vehiculo(id),
+	CONSTRAINT FK_Viatico_Evento FOREIGN KEY (idEvento) REFERENCES Evento(id) ON DELETE CASCADE
 );
